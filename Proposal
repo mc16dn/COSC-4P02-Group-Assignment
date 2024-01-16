@@ -1,0 +1,46 @@
+Members:
+
+Basel Abdel Hafez #6826853. ba19tw@brocku.ca
+Hevar Halabjaee #6701248. hh18iq@brocku.ca
+Rifat Chowdhury #6830301. rc19nv@brocku.ca
+Raymond Dong #6592539. rd18sx@brocku.ca
+Matthew Cam #6195556. mc16dn@brocku.ca
+Maisam Anjum #6804298. ma19an@brocku.ca
+
+Project Proposal:
+
+We are going to be making a bot that has multiple functionalities including but not limited to: Pulling posts from social media and creating original ideas, measuring metrics of post performance, giving advice to the user based on the aforementioned metrics, and decision tree intelligence on post selection. Python has the most resources for this application so we will be using it for this project. There are many videos on TikTok and YouTube that simply apply a webscraper from Reddit or some other app then add a text-to-speech bot that reads the post out. These videos have had a lot of success on their respective platforms, and making an app dedicated to this that adds multiple tools and features is bound to gain traction.
+
+This program will have the potential to be adaptable to the user's needs and be molded and edited relatively easily to suit modern trends. Thanks to this potential for adaptation, this program can save the time of the users by reliably, efficiently, and quickly searching a social media app's posts to generate exactly what the user is looking for.
+
+The program can also be used to measure the metrics of viewer satisfaction, and use this data to inform the user about which permutation of the post generates the most attention. We are thinking of applying a decision tree algorithm to 3 different permutations of the same post and then having the program decide which one is best for the user's requirements.
+
+Tools: 
+
+Python
+Bots
+Text To Speech
+Reddit
+YouTube (to grab content off of and posting videos on).
+Git
+
+Roles:
+
+Scrum Master: Hevar
+Product Owner: Basel
+Project Manager: Rifat
+Developer 1: Matthew
+Developer 2: Raymond
+Developer 3: Maisum
+
+Contributions:
+
+Basel: Chose roles and created documentation.
+Hevar: Presented the idea of the project.
+Maisum: Contributed to project implementation and tool selection.
+Matthew: Git creation and organization.
+Raymond and Rifat: Worked together to research the viability of the program.
+
+Meetings:
+
+Initially, once a week on Mondays at 6 PM (subject to change). 
