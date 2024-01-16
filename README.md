@@ -1,11 +1,11 @@
-# COSC 4P02 Project - Winter 2024- Professor Naser Ezzati- Jivan
-## Social Media Post Generator
+# COSC 4P02 Project - Winter 2024 - Professor Naser Ezzati - Jivan
+## Social Media Post Generator:
 
 A bot with many functions such as extracting posts from social media and producing unique ideas, measuring post-performance metrics, offering advice to the user based on the supplied metrics, and decision tree intelligence on post selection.
 
 The application may be customized to meet the needs of the user and updated to reflect current developments. It enables users to save time by searching a social networking app’s posting to get exactly what they are looking for. It may measure viewer satisfaction metrics and utilize that information to advise the user about which permutation of the post receives the most attention.
 
-## Project Members
+## Project Members:
 
 | Name  | Role | Id | Brock Email | Github Username |
 | ------------- | ------------- | ------------- |------------- |------------- |
