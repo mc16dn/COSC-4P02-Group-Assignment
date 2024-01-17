@@ -26,7 +26,7 @@ The application may be customized to meet the needs of the user and updated to r
 
 ## Build Status:
 - Regular ongoing meetings occurring to talk about the backbone of the bot and get the team proposal on hand.
-- Proposal ready 
+- Proposal ready & waiting for confirmation.
 
 ## Product Backlog/ Sprint Backlog:
 - Link will be soon generated.
