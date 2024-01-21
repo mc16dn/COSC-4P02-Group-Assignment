@@ -5,6 +5,8 @@ A bot with many functions such as extracting posts from social media and produci
 
 The application may be customized to meet the needs of the user and updated to reflect current developments. It enables users to save time by searching a social networking app’s posting to get exactly what they are looking for. It may measure viewer satisfaction metrics and utilize that information to advise the user about which permutation of the post receives the most attention.
 
+[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-blue.svg)]([https://opensource.org/licenses/](https://github.com/mc16dn/COSC-4P02-Group-Assignment/blob/main/LICENSE))
+
 ## Project Members:
 
 | Name  | Role | Id | Brock Email | Github Username |
