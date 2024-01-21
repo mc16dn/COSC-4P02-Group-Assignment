@@ -22,11 +22,15 @@ The application may be customized to meet the needs of the user and updated to r
 - TikTok
 - Youtube 
 - Reddit
-- readme.so
+- readme.so (Updating text files)
+- Jira (Designing roadmaps, backlogs, sprints)
+- Miro (Organizing product roadmaps, meeting schedule & sprint feedback session )
 
 ## Build Status:
 - Regular ongoing meetings occurring to talk about the backbone of the bot and get the team proposal on hand.
 - Proposal ready & waiting for confirmation.
+- Proposal approved & ongoing meetings for Release planning document is set as priority.
+
 
 ## Product Backlog/ Sprint Backlog:
 - Link will be soon generated.
