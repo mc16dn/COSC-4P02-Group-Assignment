@@ -13,8 +13,8 @@ def grab_url(sub, count, category, time=None):
     if category not in ['top', 'hot', 'new']:
         print("Error: The category "+category+" does not exist")
         return None
-    if (count > 25 or count < 0):
-        print("Error: Please input a count between 0 and 25")
+    if (count < 0):
+        print("Error: Please input a count higher than 0")
         return None
     if time not in ['hour', 'day', 'week', 'month', 'year', 'all', None]:
         print("Error: The time "+time+" does not exist")
@@ -32,7 +32,14 @@ def grab_url(sub, count, category, time=None):
 
     #Retrieving the URLs and removing all useless data as it loops
     for x in range(count):
-        data = data[data.find("url")+7:]
+        y = 0
+        y = data.find("url")+7
+
+        #In the case that there aren't enoug posts to fill the requested amount it will simply return what it could gather
+        if (y == 6):
+            print("{}{}{}".format("Error: There aren't enough entries, returning first ", x, " posts"))
+            return (out)
+        data = data[y:]
         out.append(data[:data.find('", ')])
     
     return (out)
@@ -47,7 +54,8 @@ print(grab_url("AskReddit",10,"asdf", "asdf"))
 print(grab_url("AskReddit",10,"top", "asdf"))
 #The count is too low
 print(grab_url("AskReddit",-10,"top", "month"))
-#The count is too high
+
+#This will succeed but will only output the 25 avaliable
 print(grab_url("AskReddit",100,"top", "month"))
 
 #The following tests succeed
