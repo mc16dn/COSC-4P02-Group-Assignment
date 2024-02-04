@@ -1,7 +1,9 @@
+from ScraperClass import *
 import urllib.request
 import os
 import datetime
 import numpy
+
 
 #Inputs subreddit name, the number of post taken, ordering used, and how far back posts go
 #Outputs a list of strings that contains the URLs of each posts
