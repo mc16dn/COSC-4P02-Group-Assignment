@@ -55,8 +55,9 @@ def censorText(postedstring):
         if word.lower() in banned_words:
             words[i]= '*'*len(word)
         censored_post = ' '.join(words)
-
+        
     return censored_post
+
 
 #TESTS
 
