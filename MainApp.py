@@ -1,10 +1,9 @@
 from ScraperClass import *
 from banned_words import *
-import urllib.request
+from urllib.request import urlopen
 import os
 import datetime
 import numpy
-
 
 #Inputs subreddit name, the number of post taken, ordering used, and how far back posts go
 #Outputs a list of strings that contains the URLs of each posts
@@ -26,9 +25,24 @@ def grab_url(sub, count, category, time=None):
     if category == "top":
         if time == None:
             time = "month"
-        data = urllib.request.urlopen("https://www.reddit.com/r/"+sub+"/"+category+".json?t="+time).read().decode("utf-8")
+        
+        connect = False
+        while not connect:
+            try:
+                data = urlopen("https://www.reddit.com/r/"+sub+"/"+category+".json?t="+time).read().decode("utf-8")
+                connect = True
+            except:
+                pass
+            
     else:
-        data = urllib.request.urlopen("https://www.reddit.com/r/"+sub+"/"+category+".json").read().decode("utf-8")
+        connect = False
+        while not connect:
+            try:
+                data = urlopen("https://www.reddit.com/r/"+sub+"/"+category+".json").read().decode("utf-8")
+                connect = True
+            except:
+                pass
+                
     out = []
 
     #Retrieving the URLs and removing all useless data as it loops
@@ -41,7 +55,8 @@ def grab_url(sub, count, category, time=None):
             print("{}{}{}".format("Error: There aren't enough entries, returning first ", x, " posts"))
             return (out)
         data = data[y:]
-        out.append(data[:data.find('", ')])
+        
+        out.append(Post(data[:data.find('", ')]+".json"))
     
     return (out)
 
