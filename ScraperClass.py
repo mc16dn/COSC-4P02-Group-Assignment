@@ -11,7 +11,13 @@ class Post:
 
     def get_data(self):
         # Fetch and load the JSON data from the URL
-        response = urlopen(self.url)
+        connect = False
+        while not connect:
+            try:
+                response = urlopen(self.url)
+                connect = True
+            except:
+                pass
         data_json = json.loads(response.read())
 
         # Extract data from the first post in the JSON data
