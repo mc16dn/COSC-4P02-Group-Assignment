@@ -1,4 +1,5 @@
 from ScraperClass import *
+from banned_words import *
 from urllib.request import urlopen
 import os
 import datetime
@@ -59,7 +60,23 @@ def grab_url(sub, count, category, time=None):
     
     return (out)
 
+#censors inputed text from urlgrabber then replace banned
+#words with * and returns censored post
+def censorText(postedstring):
+    words =postedstring.split()
+
+    for i , word in enumerate(words):
+
+        if word.lower() in banned_words:
+            words[i]= '*'*len(word)
+        censored_post = ' '.join(words)
+        
+    return censored_post
+
+
 #TESTS
+
+print(censorText(" Input Banned words here for testing"))
 
 #The following tests result in errors
 
