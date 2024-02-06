@@ -44,7 +44,21 @@ def grab_url(sub, count, category, time=None):
     
     return (out)
 
+def censorText(postedstring):
+    banned_words=["gay","Lgbt"]
+    words =postedstring.spilt()
+
+    for i , word in enumerate(words):
+
+        if word.lower() in banned_words:
+
+            words[i]= '*'*len(word)
+    censored_post = ' '.join(words)
+    return censored_post
+
 #TESTS
+
+print(censorText("fuck gay Lgbt Jew Jewish Anti-semitic"))
 
 #The following tests result in errors
 
