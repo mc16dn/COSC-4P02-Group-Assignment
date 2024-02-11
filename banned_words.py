@@ -1,6 +1,6 @@
 
 # Banned Words List
-
+# Source: https://docs.google.com/document/d/1zEZYFTFNZE75uEA7cR149ab5yO1UbgATrJh33-PB4ZY/edit
 
 banned_words = ["arse", "ass", "asshole", 
                 "homosexual", "homophobic", "racist", "gay", "lgbt", 
