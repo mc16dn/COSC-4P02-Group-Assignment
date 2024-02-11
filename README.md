@@ -36,3 +36,7 @@ The application may be customized to meet the needs of the user and updated to r
 
 ## Product Backlog/ Sprint Backlog:
 - Link will be soon generated.
+
+
+Resources: 
+-  Banned word list: https://docs.google.com/document/d/1zEZYFTFNZE75uEA7cR149ab5yO1UbgATrJh33-PB4ZY/edit
