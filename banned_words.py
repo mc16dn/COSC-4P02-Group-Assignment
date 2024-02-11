@@ -38,5 +38,5 @@ banned_words = ["arse", "ass", "asshole",
                 "tits", "titt", "tittie5", "tittiefucker", "titties", "tittyfuck", "tittywank", "titwank", "tosser", "turd", "tw4t", "twat", "twathead", "twatty", "twunt", "twunter", "v14gra", "v1gra", "vagina", "viagra", "vulva", "w00se", "wang", "wank",
                 "wanker", "wanky", "whoar", "whore", "willies", "willy", "wtf", "xrated", "xxx", "sucker", "dumbass", "kys", "kill", "die", "cliff", "bridge", "shooting", "shoot", "bomb", "terrorist", "terrorism", "bombed", "trump", "maga", "conservative",
                 "make america great again", "far right", "necrophilia", "mongoloid", "furfag", "cp", "pedo", "pedophile", "pedophilia", "child predator", "predatory", "depression", "cut myself", "i want to die", "fuck life", "redtube", "loli", "lolicon",
-                "cub"]
+                "cub","shit,"]
 

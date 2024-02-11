@@ -62,7 +62,8 @@ def grab_url(sub, count, category, time=None):
 
 #censors inputed text from urlgrabber then replace banned
 #words with * and returns censored post
-def censorText(postedstring):
+
+def  censorText(postedstring):
     words =postedstring.split()
 
     for i , word in enumerate(words):
@@ -75,25 +76,25 @@ def censorText(postedstring):
 
 
 #TESTS
-
-print(censorText(" Input Banned words here for testing"))
+print( "\n" + "Censored text: " + "\n")
+print(censorText(Post('https://www.reddit.com/r/stories/comments/1ahp9d1/meditation_practise_has_made_taking_shits_1000x/.json').text))
 
 #The following tests result in errors
 
-#The category doesn't work
+# The category doesn't work
 print(grab_url("AskReddit",10,"asdf", "asdf"))
-#The time period doesn't work
+# The time period doesn't work
 print(grab_url("AskReddit",10,"top", "asdf"))
-#The count is too low
+# The count is too low
 print(grab_url("AskReddit",-10,"top", "month"))
-
 #This will succeed but will only output the 25 avaliable
-print(grab_url("AskReddit",100,"top", "month"))
 
-#The following tests succeed
+print(grab_url("AskReddit",10,"top", "month"))
+
+ #The following tests succeed
 
 print(grab_url("AskReddit",0,"top", "month"))
-print(grab_url("AskReddit",10,"top", "month"))
+print(grab_url("AskReddit",100,"top", "month"))
 print(grab_url("AskReddit",20,"hot"))
 
 
