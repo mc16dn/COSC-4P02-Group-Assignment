@@ -1,8 +1,8 @@
 
 # Banned Words List
 # Source:
-# Reddit post: https://www.reddit.com/r/youtubers/comments/db5kgt/tips_tricks_list_of_youtube_demonetized_words_for/
-# spread sheet: https://docs.google.com/spreadsheets/u/1/d/1ozg1Cnm6SdtM4M5rATkANAi07xAzYWaKL7HKxyvoHzk/htmlview#
+# Reddit post: https://www.reddit.com/r/NewTubers/comments/nm09bz/list_of_500_words_to_put_in_your_banned_words_list/
+# google doc: https://docs.google.com/document/d/1zEZYFTFNZE75uEA7cR149ab5yO1UbgATrJh33-PB4ZY/edit
 
 banned_words =["bitch,","arse", "ass", "asshole", "homosexual", "homophobic", "racist", "gay", "lgbt", "jew", "jewish", "anti-semitic", "chink", "muslims", "muslim", "isis", "islamophobe", "homophobe", "bombing", "sexyhot", "bastard", "bitch", "fucker", "cunt", "damn", "fuck", "goddamn", "shit", "motherfucker", "nigga",
                "nigger", "prick", "shit", "shit ass", "shitass", "son of a bitch", "whore", "thot", "slut", "faggot", "dick", "pussy", "penis", "vagina", "negro", "coon", "bitched", "sexist", "freaking", "cock", "sucker", "lick", "licker", "rape", "molest", "anal", "buttrape", "coont", "cancer", "sex", "retard", 
