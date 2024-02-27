@@ -39,4 +39,4 @@ The application may be customized to meet the needs of the user and updated to r
 
 
 Resources: 
--  Banned word list: https://docs.google.com/document/d/1zEZYFTFNZE75uEA7cR149ab5yO1UbgATrJh33-PB4ZY/edit
+Reddit post for banned word list: https://www.reddit.com/r/NewTubers/comments/nm09bz/list_of_500_words_to_put_in_your_banned_words_list/
