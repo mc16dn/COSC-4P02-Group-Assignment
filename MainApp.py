@@ -71,5 +71,30 @@ def  censorText(postedstring):
         if word.lower() in banned_words:
             words[i]= '*'*len(word)
         censored_post = ' '.join(words)
+
+
+
+#Creates a tts given a string of the text fro mthe posts and creates a mp3 file of it
+#Title: the title of the post
+def createTTS(postedstring,title, lan, accent):
+    tts = gTTS (postedstring, lang =lan, tld=accent)
+    tts.save(title+'.mp3')
+
+
+
+#Will return true if the duration is within the constraints and false if it is not. 
+#The constraints are set by the words_per_minute parameter and can be adjusted accordingly
+#maxTime: maximum amount of time of a video given in seconds. 
+#fileName: name or location of the txt file that will be read
+def checkduration(postedstring, words_per_minute, maxTime, minTime):
+    words_per_second = words_per_minute / 60    #used to calculate the maxlength of  the video below
+    maxLength = maxTime * (words_per_minute/60) #This will calculate the maximum number of words in the video
+
+    length = len(postedstring.split())
+
+    if (length <= maxLength):
+        return True
+    else:
+        return False
         
     return censored_post
