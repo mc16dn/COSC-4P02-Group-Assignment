@@ -41,3 +41,17 @@ print(grab_url("AskReddit",5,"hot"))
 #The maximum number of posts that can be retrieved is 25 but since that is in excess of a reasonable amount that may not be neccesary
 #The function inputs assumes that the subreddit exists
 #The function assumes that the input is the correct type
+
+title = "test"
+lan = "en"
+accent = 'us'
+postText = test_post.text
+
+
+createTTS (postText, title, lan,accent)
+
+words_per_minute = 160 #approximately how fast the us accents talks
+maxtime = 60 #max time for youtube shorts is 60seconds
+mintime = 15  #a set min time to ensure quality post
+
+print (checkduration (postText, words_per_minute,maxtime,mintime))
