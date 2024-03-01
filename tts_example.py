@@ -1,5 +1,5 @@
 from gtts import gTTS
-
+import requests
 
 #lang is language, should always be en
 #tld is accent, us is american, com.au is Australian, and co.uk is British
