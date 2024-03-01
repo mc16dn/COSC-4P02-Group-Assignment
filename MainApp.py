@@ -73,6 +73,8 @@ def  censorText(postedstring):
             words[i]= '*'*len(word)
         censored_post = ' '.join(words)
 
+    return censored_post
+
 
 
 #Creates a tts given a string of the text fro mthe posts and creates a mp3 file of it
@@ -97,5 +99,3 @@ def checkduration(postedstring, words_per_minute, maxTime, minTime):
         return True
     else:
         return False
-        
-    return censored_post
