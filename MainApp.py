@@ -70,7 +70,7 @@ def  censorText(postedstring):
     for i , word in enumerate(words):
 
         if word.lower() in banned_words:
-            words[i]= '*'*len(word)
+            words[i]= words[i][0]+'*'*(len(word)-1)
         censored_post = ' '.join(words)
 
     return censored_post
