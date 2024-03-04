@@ -99,3 +99,30 @@ def checkduration(postedstring, words_per_minute, maxTime, minTime):
         return True
     else:
         return False
+
+
+#input a string of text as the text parameter, voice will be either 1, 2 or 3 for different accents
+# Will output an mp3 reading text
+def textToSpeech(text, voice):
+
+    if voice == 1:
+        tts = gTTS(text, lang="en", tld='us')
+        tts.save('audio.mp3')
+        
+
+    elif voice == 2:
+        tts = gTTS(text, lang="en", tld='com.au')
+        tts.save('audio.mp3')
+
+    elif voice== 3:
+
+        tts = gTTS(text, lang="en", tld='co.uk')
+        tts.save('audio.mp3')
+
+    else:
+        # Default case if param is not 1, 2, or 3
+        return "Invalid entry to text to voice function"
+    
+
+
+textToSpeech("I love cats", 1)

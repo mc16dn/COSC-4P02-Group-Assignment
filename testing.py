@@ -42,6 +42,10 @@ print(grab_url("AskReddit",5,"hot"))
 #The function inputs assumes that the subreddit exists
 #The function assumes that the input is the correct type
 
+
+#TextToSpeech
+
+
 title = "test"
 lan = "en"
 accent = 'us'
@@ -55,3 +59,13 @@ maxtime = 60 #max time for youtube shorts is 60seconds
 mintime = 15  #a set min time to ensure quality post
 
 print (checkduration (postText, words_per_minute,maxtime,mintime))
+#lang is language, should always be en
+#tld is accent, us is american, com.au is Australian, and co.uk is British
+#for more options https://gtts.readthedocs.io/en/latest/module.html#localized-accents
+
+tts = gTTS("The quick brown fox jumps over the lazy dog", lang="en", tld='us')
+tts.save('first.mp3')
+tts = gTTS("The quick brown fox jumps over the lazy dog", lang="en", tld='com.au')
+tts.save('second.mp3')
+tts = gTTS("The quick brown fox jumps over the lazy dog", lang="en", tld='co.uk')
+tts.save('third.mp3')
