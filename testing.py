@@ -27,8 +27,6 @@ print(grab_url("AskReddit",10,"asdf", "asdf"))
 print(grab_url("AskReddit",10,"top", "asdf"))
 # The count is too low
 print(grab_url("AskReddit",-10,"top", "month"))
-#This will succeed but will only output the 25 avaliable
-print(grab_url("AskReddit",10,"top", "month"))
 
 #The following tests succeed
 
