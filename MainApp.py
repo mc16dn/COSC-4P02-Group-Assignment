@@ -1,8 +1,28 @@
+import subprocess
+import sys
+import os
+    
+try:
+    from moviepy.editor import *
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "moviepy"])
+    out = subprocess.Popen([sys.executable, "-m", "pip", "show", "moviepy"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "wand"])
+    
+    out = subprocess.check_output(["pip", "show", "moviepy"]).decode()
+    out = out[out.find("Location")+10:out.find("Requires")-2]+"\moviepy\config_defaults.py"
+    
+    with open(out, 'r',encoding='utf-8') as file:
+        data = file.readlines()
+    data[-1] = "IMAGEMAGICK_BINARY = r"+'"'+ os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'COSC-4P02-Group-Assignment-main\\ImageMagick-6.9.13-Q8\\magick.exe'))+'"'
+
+    with open(out, 'w',encoding='utf-8') as file:
+        file.writelines(data)
+    from moviepy.editor import *
+
 from ScraperClass import *
 from banned_words import *
 from mutagen.mp3 import MP3
-from moviepy.editor import *
-import os
 import datetime
 import re
 from gtts import gTTS
@@ -196,7 +216,7 @@ def merge(text, voice, video):
 text = "I fucking love cats. I love dogs. I love all animals."
 text = censorText(text)
 print(text)
-
-text = Post('https://www.reddit.com/r/stories/comments/1ahp9d1/meditation_practise_has_made_taking_shits_1000x/.json').text
 textToSpeech(text, 1)
 merge(text, 1, "vid1.mp4")
+
+text = Post('https://www.reddit.com/r/stories/comments/1ahp9d1/meditation_practise_has_made_taking_shits_1000x/.json').text
