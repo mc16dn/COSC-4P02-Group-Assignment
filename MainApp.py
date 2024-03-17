@@ -1,7 +1,7 @@
 import subprocess
 import sys
 import os
-    
+
 try:
     from moviepy.editor import *
 except ImportError:
@@ -161,14 +161,13 @@ def merge(text, voice, video):
     
     #Keeping track of how long each sentence takes
     total = 0
-    
     #Merging the audio and video and then cutting it down to the audio's length to make future changes faster
-    clip = VideoFileClip(video).subclip(0, MP3("audio.mp3").info.length)
+    clip = VideoFileClip(os.getcwd()+"\\"+video).subclip(0, MP3(os.getcwd()+"\\audio.mp3").info.length)
     #The progress bar is hidden for this save so that the user will not believe it is done here
-    clip.write_videofile("temp.mp4", audio="audio.mp3", logger=None)
+    clip.write_videofile(os.getcwd()+"\\temp.mp4", audio=os.getcwd()+"\\audio.mp3", logger=None)
     
     #Creating the clips that make up individual subtitles then putting them in a list
-    clip = VideoFileClip("temp.mp4")
+    clip = VideoFileClip(os.getcwd()+"\\temp.mp4")
     clips = [clip]
     
     #Determining how long a subtitle remains on screen
@@ -176,18 +175,18 @@ def merge(text, voice, video):
     
         if voice == 1:
             tts = gTTS(censorwords[x], lang="en", tld='us')
-            tts.save('sub.mp3')
+            tts.save(os.getcwd()+'\\sub.mp3')
         
         elif voice == 2:
             tts = gTTS(censorwords[x], lang="en", tld='com.au')
-            tts.save('sub.mp3')
+            tts.save(os.getcwd()+'\\sub.mp3')
 
         elif voice== 3:
             tts = gTTS(censorwords[x], lang="en", tld='co.uk')
-            tts.save('sub.mp3')
+            tts.save(os.getcwd()+'\\sub.mp3')
         
         pre = total
-        total += MP3("sub.mp3").info.length
+        total += MP3(os.getcwd()+'\\sub.mp3').info.length
         
         #Accounting for any pauses caused by commas
         if (words[x][-1] == ","):
@@ -204,11 +203,11 @@ def merge(text, voice, video):
     
     #Adding the clips that have the subtitles
     video = CompositeVideoClip(clips)
-    video.write_videofile("end.mp4")
+    video.write_videofile(os.getcwd()+"\\end.mp4")
     
     #Removing all temporary data
-    os.remove("temp.mp4")
-    os.remove("sub.mp3")
+    os.remove(os.getcwd()+"\\temp.mp4")
+    os.remove(os.getcwd()+"\\sub.mp3")
     
 
 #Takes the text "I fucking love cats. I love dogs. I love all animals.", cenosrs it, then creates a TTS audiofile that replaced the swear with REDACTED
