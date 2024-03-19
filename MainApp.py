@@ -1,7 +1,7 @@
 import subprocess
 import sys
 import os
-from analytix import Client
+
 try:
     from moviepy.editor import *
 except ImportError:
@@ -208,18 +208,10 @@ def merge(text, voice, video):
     #Removing all temporary data
     os.remove(os.getcwd()+"\\temp.mp4")
     os.remove(os.getcwd()+"\\sub.mp3")
+    
 
-#This utilizes the yt analy    
-def ytAnalytics(outputPath = ".\Outputs\ "):
-    client = Client("secrets.json")
-    report = client.fetch_report()
-    csv = report.to_csv(path = outputPath + "report.csv", overwrite=True) #Creates a report outputted into the format of csv
-    excel = report.to_excel(path = outputPath + "Output.xlsx", sheet_name="Analytics", overwrite = True) #Creates a report outputted into the format in excel
-    df = report.to_pandas()
-    df.head(5)
 #Takes the text "I fucking love cats. I love dogs. I love all animals.", cenosrs it, then creates a TTS audiofile that replaced the swear with REDACTED
 
-ytAnalytics()
 text = "I fucking love cats. I love dogs. I love all animals."
 text = censorText(text)
 print(text)
