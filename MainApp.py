@@ -209,7 +209,8 @@ def merge(text, voice, video):
     os.remove(os.getcwd()+"\\temp.mp4")
     os.remove(os.getcwd()+"\\sub.mp3")
 
-#This utilizes the yt analy    
+#This utilizes the project analytix which accesses a youtube channels analytics
+#https://parafoxia.github.io/analytix/starting/googleapp/
 def ytAnalytics(outputPath = ".\Outputs\ "):
     client = Client("secrets.json")
     report = client.fetch_report()
