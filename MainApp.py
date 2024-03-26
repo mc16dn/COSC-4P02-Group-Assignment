@@ -1,8 +1,31 @@
-from ScraperClass import *
-from urllib.request import urlopen
+import subprocess
+import sys
 import os
+
+try:
+    from moviepy.editor import *
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "moviepy"])
+    out = subprocess.Popen([sys.executable, "-m", "pip", "show", "moviepy"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "wand"])
+    
+    out = subprocess.check_output(["pip", "show", "moviepy"]).decode()
+    out = out[out.find("Location")+10:out.find("Requires")-2]+"\moviepy\config_defaults.py"
+    
+    with open(out, 'r',encoding='utf-8') as file:
+        data = file.readlines()
+    data[-1] = "IMAGEMAGICK_BINARY = r"+'"'+ os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'COSC-4P02-Group-Assignment-main\\ImageMagick-6.9.13-Q8\\magick.exe'))+'"'
+
+    with open(out, 'w',encoding='utf-8') as file:
+        file.writelines(data)
+    from moviepy.editor import *
+
+from ScraperClass import *
+from banned_words import *
+from mutagen.mp3 import MP3
 import datetime
-import numpy
+import re
+from gtts import gTTS
 
 #Inputs subreddit name, the number of post taken, ordering used, and how far back posts go
 #Outputs a list of strings that contains the URLs of each posts
@@ -59,28 +82,140 @@ def grab_url(sub, count, category, time=None):
     
     return (out)
 
-#TESTS
+#censors inputed text from urlgrabber then replace banned
+#words with * and returns censored post
 
-#The following tests result in errors
+def  censorText(postedstring):
+    words =postedstring.split()
 
-#The category doesn't work
-print(grab_url("AskReddit",10,"asdf", "asdf"))
-#The time period doesn't work
-print(grab_url("AskReddit",10,"top", "asdf"))
-#The count is too low
-print(grab_url("AskReddit",-10,"top", "month"))
+    for i , word in enumerate(words):
 
-#This will succeed but will only output the 25 avaliable
-print(grab_url("AskReddit",100,"top", "month"))
+        if word.lower() in banned_words:
+            words[i]= words[i][0]+'*'*(len(word)-1)
+        censored_post = ' '.join(words)
 
-#The following tests succeed
+    return censored_post
 
-print(grab_url("AskReddit",0,"top", "month"))
-print(grab_url("AskReddit",10,"top", "month"))
-print(grab_url("AskReddit",20,"hot"))
+#Will return true if the duration is within the constraints and false if it is not. 
+#The constraints are set by the words_per_minute parameter and can be adjusted accordingly
+#maxTime: maximum amount of time of a video given in seconds. 
+#fileName: name or location of the txt file that will be read
+def checkduration(postedstring, words_per_minute, maxTime, minTime):
+    words_per_second = words_per_minute / 60    #used to calculate the maxlength of  the video below
+    maxLength = maxTime * (words_per_minute/60) #This will calculate the maximum number of words in the video
+
+    length = len(postedstring.split())
+
+    if (length <= maxLength):
+        return True
+    else:
+        return False
+
+#Inputs text
+#Outputs text with swears replaced with the word REDACTED
+def censorTTS(postedstring):
+    words =postedstring.split()
+
+    for i , word in enumerate(words):
+
+        if "*" in word:
+            words[i]= "REDACTED"
+        censored_post = ' '.join(words)
+
+    return censored_post
+    
+#input a string of text as the text parameter, voice will be either 1, 2 or 3 for different accents
+# Will output an mp3 reading text
+def textToSpeech(text, voice):
+
+    text = censorTTS(text)
+    
+    if voice == 1:
+        tts = gTTS(text, lang="en", tld='us')
+        tts.save('audio.mp3')
+        
+
+    elif voice == 2:
+        tts = gTTS(text, lang="en", tld='com.au')
+        tts.save('audio.mp3')
+
+    elif voice== 3:
+
+        tts = gTTS(text, lang="en", tld='co.uk')
+        tts.save('audio.mp3')
+
+    else:
+        # Default case if param is not 1, 2, or 3
+        return "Invalid entry to text to voice function"
 
 
-#Known issues
-#The maximum number of posts that can be retrieved is 25 but since that is in excess of a reasonable amount that may not be neccesary
-#The function inputs assumes that the subreddit exists
-#The function assumes that the input is the correct type
+#Merges the audio and video while also creating subtitles
+def merge(text, voice, video):
+
+    #Censoring the text then dividing it into pauses (anything that causes the speaker to pause)
+    #The subtitles and the audio are censored differently
+    #The word fuck will be censored as f*** in the text but as REDACTED in the audio
+    censortext = censorTTS(text)
+    words = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?|\!|\,)\s',text)
+    censorwords = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?|\!|\,)\s', censortext)
+    
+    #Keeping track of how long each sentence takes
+    total = 0
+    #Merging the audio and video and then cutting it down to the audio's length to make future changes faster
+    clip = VideoFileClip(os.getcwd()+"\\"+video).subclip(0, MP3(os.getcwd()+"\\audio.mp3").info.length)
+    #The progress bar is hidden for this save so that the user will not believe it is done here
+    clip.write_videofile(os.getcwd()+"\\temp.mp4", audio=os.getcwd()+"\\audio.mp3", logger=None)
+    
+    #Creating the clips that make up individual subtitles then putting them in a list
+    clip = VideoFileClip(os.getcwd()+"\\temp.mp4")
+    clips = [clip]
+    
+    #Determining how long a subtitle remains on screen
+    for x, word in enumerate(words):
+    
+        if voice == 1:
+            tts = gTTS(censorwords[x], lang="en", tld='us')
+            tts.save(os.getcwd()+'\\sub.mp3')
+        
+        elif voice == 2:
+            tts = gTTS(censorwords[x], lang="en", tld='com.au')
+            tts.save(os.getcwd()+'\\sub.mp3')
+
+        elif voice== 3:
+            tts = gTTS(censorwords[x], lang="en", tld='co.uk')
+            tts.save(os.getcwd()+'\\sub.mp3')
+        
+        pre = total
+        total += MP3(os.getcwd()+'\\sub.mp3').info.length
+        
+        #Accounting for any pauses caused by commas
+        if (words[x][-1] == ","):
+            total -= 0.192
+        
+        #Creating the subtitle
+        #This is where you make changes to edit the subtitles
+        #https://moviepy-tburrows13.readthedocs.io/en/improve-docs/ref/VideoClip/TextClip.html
+        sub = TextClip(words[x], fontsize = 90, color = 'black', size = (clip.w * 0.8,None), method = 'caption', bg_color = 'white')
+        sub = sub.set_start(pre)
+        sub = sub.set_pos('center').set_duration(total - pre)
+        clips.append(sub)
+
+    
+    #Adding the clips that have the subtitles
+    video = CompositeVideoClip(clips)
+    video.write_videofile(os.getcwd()+"\\end.mp4")
+    
+    #Removing all temporary data
+    os.remove(os.getcwd()+"\\temp.mp4")
+    os.remove(os.getcwd()+"\\sub.mp3")
+    
+
+#Takes the text "I fucking love cats. I love dogs. I love all animals.", cenosrs it, then creates a TTS audiofile that replaced the swear with REDACTED
+
+text = "I fucking love cats. I love dogs. I love all animals."
+text = censorText(text)
+print(text)
+textToSpeech(text, 1)
+merge(text, 1, "vid1.mp4")
+
+text = Post('https://www.reddit.com/r/stories/comments/1ahp9d1/meditation_practise_has_made_taking_shits_1000x/.json').text

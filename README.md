@@ -36,3 +36,7 @@ The application may be customized to meet the needs of the user and updated to r
 
 ## Product Backlog/ Sprint Backlog:
 - Link will be soon generated.
+
+
+Resources: 
+Reddit post for banned word list: https://www.reddit.com/r/NewTubers/comments/nm09bz/list_of_500_words_to_put_in_your_banned_words_list/
