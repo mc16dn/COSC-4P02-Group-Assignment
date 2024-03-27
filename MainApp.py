@@ -2,19 +2,36 @@ import subprocess
 import sys
 import os
 
+if not os.path.exists(os.environ["ProgramFiles"]+"\\ImageMagick-7.1.1-Q16-HDRI"):
+    raise Exception("ImageMagick has not been installed, please use the EXE provided and select Install legacy untilities during Select Additional Tasks.")
+elif not os.path.exists(os.environ["ProgramFiles"]+"\\ImageMagick-7.1.1-Q16-HDRI\\convert.exe"):
+    raise Exception("ImageMagick has been installed but the legacy utilities have not been added, please reinstall and select Install legacy utilites during Select Additional Tasks.")
+
 try:
     from moviepy.editor import *
 except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "moviepy"])
     out = subprocess.Popen([sys.executable, "-m", "pip", "show", "moviepy"])
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "wand"])
     
     out = subprocess.check_output(["pip", "show", "moviepy"]).decode()
-    out = out[out.find("Location")+10:out.find("Requires")-2]+"\moviepy\config_defaults.py"
+    out = out[out.find("Location")+10:out.find("Requires")-2]+"\\moviepy\\config_defaults.py"
     
     with open(out, 'r',encoding='utf-8') as file:
         data = file.readlines()
-    data[-1] = "IMAGEMAGICK_BINARY = r"+'"'+ os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'COSC-4P02-Group-Assignment-main\\ImageMagick-6.9.13-Q8\\magick.exe'))+'"'
+    data[-1] = "IMAGEMAGICK_BINARY = r"+'"'+ os.environ["ProgramFiles"]+"\\ImageMagick-7.1.1-Q16-HDRI\\magick.exe"+'"'
+
+    with open(out, 'w',encoding='utf-8') as file:
+        file.writelines(data)
+    from moviepy.editor import *
+except IOError:
+    out = subprocess.Popen([sys.executable, "-m", "pip", "show", "moviepy"])
+    
+    out = subprocess.check_output(["pip", "show", "moviepy"]).decode()
+    out = out[out.find("Location")+10:out.find("Requires")-2]+"\\moviepy\\config_defaults.py"
+    
+    with open(out, 'r',encoding='utf-8') as file:
+        data = file.readlines()
+    data[-1] = "IMAGEMAGICK_BINARY = r"+'"'+ os.environ["ProgramFiles"]+"\\ImageMagick-7.1.1-Q16-HDRI\\magick.exe"+'"'
 
     with open(out, 'w',encoding='utf-8') as file:
         file.writelines(data)
@@ -219,3 +236,4 @@ textToSpeech(text, 1)
 merge(text, 1, "vid1.mp4")
 
 text = Post('https://www.reddit.com/r/stories/comments/1ahp9d1/meditation_practise_has_made_taking_shits_1000x/.json').text
+
