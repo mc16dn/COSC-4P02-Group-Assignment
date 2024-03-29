@@ -2,11 +2,13 @@ import subprocess
 import sys
 import os
 
+#Checking if ImageMagick has been installed and if Moviepy is correctly pointing to ImageMagick
 if not os.path.exists(os.environ["ProgramFiles"]+"\\ImageMagick-7.1.1-Q16-HDRI"):
     raise Exception("ImageMagick has not been installed, please use the EXE provided and select Install legacy untilities during Select Additional Tasks.")
 elif not os.path.exists(os.environ["ProgramFiles"]+"\\ImageMagick-7.1.1-Q16-HDRI\\convert.exe"):
     raise Exception("ImageMagick has been installed but the legacy utilities have not been added, please reinstall and select Install legacy utilites during Select Additional Tasks.")
 
+#Checking if moviepy exists and importing it if it doesn't
 try:
     from moviepy.editor import *
 except ImportError:
@@ -37,9 +39,16 @@ except IOError:
         file.writelines(data)
     from moviepy.editor import *
 
+
+#Importing mutagen
+try:
+    from mutagen.mp3 import MP3
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "mutagen"])
+    from mutagen.mp3 import MP3
+    
 from ScraperClass import *
 from banned_words import *
-from mutagen.mp3 import MP3
 import datetime
 import re
 from gtts import gTTS
@@ -227,7 +236,7 @@ def merge(text, voice, video):
     os.remove(os.getcwd()+"\\sub.mp3")
     
 
-#Takes the text "I fucking love cats. I love dogs. I love all animals.", cenosrs it, then creates a TTS audiofile that replaced the swear with REDACTED
+#Takes the text "I fucking love cats. I love dogs. I love all animals.", cenosrs it, then creates a TTS audiofile that replaced the swear with REDACTED but still have the subtitles as f******
 
 text = "I fucking love cats. I love dogs. I love all animals."
 text = censorText(text)
