@@ -221,7 +221,7 @@ def merge(text, voice, video):
         #Creating the subtitle
         #This is where you make changes to edit the subtitles
         #https://moviepy-tburrows13.readthedocs.io/en/improve-docs/ref/VideoClip/TextClip.html
-        sub = TextClip(words[x], fontsize = 90, color = 'white', size = (clip.w * 0.6,None), method = 'caption', stroke_color='black', stroke_width=2)
+        sub = TextClip(words[x], fontsize = 110, color = 'white', size = (clip.w * 0.8,None), method = 'caption', stroke_color='black', stroke_width=4)
         sub = sub.set_start(pre)
         sub = sub.set_pos('top','center').margin(top=450, opacity=0).set_duration(total - pre)
         clips.append(sub)
@@ -236,7 +236,7 @@ def merge(text, voice, video):
     os.remove(os.getcwd()+"\\sub.mp3")
     
 
-#Takes the text "I fucking love cats. I love dogs. I love all animals.", cenosrs it, then creates a TTS audiofile that replaced the swear with REDACTED but still have the subtitles as f******
+#Takes the text "I fucking love cats. I love dogs. I love all animals.", censors it, then creates a TTS audiofile that replaced the swear with REDACTED but still have the subtitles as f******
 
 text = "I fucking love cats. I love dogs. I love all animals."
 text = censorText(text)
