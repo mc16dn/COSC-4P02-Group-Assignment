@@ -104,7 +104,7 @@ def grab_url(sub, count, category, time=None):
             return (out)
         data = data[y:]
         
-        out.append(Post(data[:data.find('", ')]+".json"))
+        out.append(Post(data[:data.find('", ')]+".json").url)
     
     return (out)
 
