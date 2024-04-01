@@ -19,6 +19,7 @@ The application may be customized to meet the needs of the user and updated to r
 | Maisam Anjum | Developer 3  | 6804298 | ma19an@brocku.ca | Koorikdat |
 
 ## Frameworks used:
+- Python
 - Text to Speech
 - TikTok
 - Youtube 
