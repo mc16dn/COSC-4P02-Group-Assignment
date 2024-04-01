@@ -26,16 +26,19 @@ The application may be customized to meet the needs of the user and updated to r
 - Reddit
 - readme.so (Updating text files)
 - Jira (Designing roadmaps, backlogs, sprints)
-- Miro (Organizing product roadmaps, meeting schedule & sprint feedback session )
+- Miro (Organizing product roadmaps, meeting schedule & sprint feedback session)
 
 ## Build Status:
 - Regular ongoing meetings occurring to talk about the backbone of the bot and get the team proposal on hand.
 - Proposal ready & waiting for confirmation.
 - Proposal approved & ongoing meetings for Release planning document is set as priority.
+- Ongoing Daily scrums, Weekly Sprint review, Sprint Retrospective.
+- TA Progress meeting Scheduled & Progress report 1 ready & approved.
+- TA Progress meeting 2 Scheduled & Progress report 2 ready & approved. 
 
 
 ## Product Backlog/ Sprint Backlog:
-- Link will be soon generated.
+- Jira: https://brocku-hh18iq.atlassian.net/jira/software/projects/SMPG/boards/1/backlog
 
 
 Resources: 
