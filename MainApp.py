@@ -221,9 +221,9 @@ def merge(text, voice, video):
         #Creating the subtitle
         #This is where you make changes to edit the subtitles
         #https://moviepy-tburrows13.readthedocs.io/en/improve-docs/ref/VideoClip/TextClip.html
-        sub = TextClip(words[x], fontsize = 90, color = 'black', size = (clip.w * 0.8,None), method = 'caption', bg_color = 'white')
+        sub = TextClip(words[x], fontsize = 90, color = 'white', size = (clip.w * 0.6,None), method = 'caption', stroke_color='black', stroke_width=2)
         sub = sub.set_start(pre)
-        sub = sub.set_pos('center').set_duration(total - pre)
+        sub = sub.set_pos('top','center').margin(top=450, opacity=0).set_duration(total - pre)
         clips.append(sub)
 
     
