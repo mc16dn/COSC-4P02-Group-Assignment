@@ -242,7 +242,14 @@ text = "I fucking love cats. I love dogs. I love all animals."
 text = censorText(text)
 print(text)
 textToSpeech(text, 1)
-merge(text, 1, "vid1.mp4")
 
-text = Post('https://www.reddit.com/r/stories/comments/1ahp9d1/meditation_practise_has_made_taking_shits_1000x/.json').text
+#merge(text, voice option, video file)
 
+t=grab_url("OffMyChest",1,"top")
+t=t[0]
+
+text = Post('https://www.reddit.com/r/offmychest/comments/184umwe/i_gotta_get_this_off_my_chest/.json').text
+print(text)
+text = censorText(text)
+textToSpeech(text, 1)
+merge(text, 1, "vid2.mp4")
