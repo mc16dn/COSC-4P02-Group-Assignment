@@ -219,8 +219,8 @@ def merge(text, voice, video):
         total += MP3(os.getcwd()+'\\sub.mp3').info.length
         
         #Accounting for any pauses caused by commas
-        if (words[x][-1] == ","):
-            total -= 0.192
+        if (words[x][-1] == "," or words[x][-1] == "."):
+            total -= 0.1
         
         #Creating the subtitle
         #This is where you make changes to edit the subtitles
