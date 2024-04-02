@@ -187,8 +187,12 @@ def merge(text, voice, video):
     
     #Keeping track of how long each sentence takes
     total = 0
-    #Merging the audio and video and then cutting it down to the audio's length to make future changes faster
-    clip = VideoFileClip(os.getcwd()+"\\"+video).subclip(0, MP3(os.getcwd()+"\\audio.mp3").info.length)
+    if MP3(os.getcwd()+"\\audio.mp3").info.length < 120:
+        #Merging the audio and video and then cutting it down to the audio's length to make future changes faster
+        clip = VideoFileClip(os.getcwd()+"\\"+video).subclip(0, MP3(os.getcwd()+"\\audio.mp3").info.length)
+    else:
+        #If the audio is longer than the video then the video will loop until it reaches the same length
+        clip = VideoFileClip(os.getcwd()+"\\"+video).loop(duration = MP3(os.getcwd()+"\\audio.mp3").info.length)
     #The progress bar is hidden for this save so that the user will not believe it is done here
     clip.write_videofile(os.getcwd()+"\\temp.mp4", audio=os.getcwd()+"\\audio.mp3", logger=None)
     
