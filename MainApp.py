@@ -170,6 +170,15 @@ def textToSpeech(text, voice):
         tts = gTTS(text, lang="en", tld='co.uk')
         tts.save('audio.mp3')
 
+    elif voice== 4:
+        tts = gTTS(text, lang="en", tld='ie')
+        tts.save('audio.mp3')
+
+    elif voice==5:
+        tts = gTTS(text, lang="en", tld='co.in')
+        tts.save('audio.mp3')
+
+
     else:
         # Default case if param is not 1, 2, or 3
         return "Invalid entry to text to voice function"
