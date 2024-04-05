@@ -1,6 +1,12 @@
 import subprocess
 import sys
 import os
+from ScraperClass import *
+from banned_words import *
+import datetime
+import re
+from gtts import gTTS
+
 
 #Checking if ImageMagick has been installed and if Moviepy is correctly pointing to ImageMagick
 if not os.path.exists(os.environ["ProgramFiles"]+"\\ImageMagick-7.1.1-Q16-HDRI"):
@@ -47,11 +53,6 @@ except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "mutagen"])
     from mutagen.mp3 import MP3
     
-from ScraperClass import *
-from banned_words import *
-import datetime
-import re
-from gtts import gTTS
 
 #Inputs subreddit name, the number of post taken, ordering used, and how far back posts go
 #Outputs a list of strings that contains the URLs of each posts
