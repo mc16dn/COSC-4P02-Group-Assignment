@@ -1,4 +1,7 @@
 import requests
+import tts
+import torch
+
 
 url = "https://tts-tiktok.p.rapidapi.com/tts/v1/tts-tiktok-1"
 
