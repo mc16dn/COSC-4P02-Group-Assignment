@@ -232,11 +232,7 @@ def merge(text, voice, video, category):
             tts.save(os.getcwd()+'\\sub.mp3')
         
         pre = total
-        total += MP3(os.getcwd()+'\\sub.mp3').info.length
-        
-        #Accounting for any pauses caused by commas
-        if (words[x][-1] == "," or words[x][-1] == "."):
-            total -= 0.1
+        total += MP3(os.getcwd()+'\\sub.mp3').info.length - 0.1
         
         #Creating the subtitle
         #This is where you make changes to edit the subtitles
