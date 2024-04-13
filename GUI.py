@@ -1,6 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
 
+
+#Experimenting with Gui Creation
+
+
+
 def generate_request():
     print(f"Request Generated with: {video_var.get()} and {perm_var.get()}")
 
