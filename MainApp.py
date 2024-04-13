@@ -5,8 +5,6 @@ from ScraperClass import *
 from banned_words import *
 import datetime
 import re
-from gtts import gTTS
-
 
 #Checking if ImageMagick has been installed and if Moviepy is correctly pointing to ImageMagick
 if not os.path.exists(os.environ["ProgramFiles"]+"\\ImageMagick-7.1.1-Q16-HDRI"):
@@ -53,6 +51,13 @@ except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "mutagen"])
     from mutagen.mp3 import MP3
     
+
+#Importing gtts
+try :
+    from gtts import gTTS
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "gTTS"])
+    from gtts import gTTS
 
 #Inputs subreddit name, the number of post taken, ordering used, and how far back posts go
 #Outputs a list of strings that contains the URLs of each posts
@@ -186,7 +191,8 @@ def textToSpeech(text, voice):
 
 
 #Merges the audio and video while also creating subtitles
-def merge(text, voice, video):
+#The categories for videos are horror, lighthearted, seriuous, and custom
+def merge(text, voice, video, category):
 
     #Censoring the text then dividing it into pauses (anything that causes the speaker to pause)
     #The subtitles and the audio are censored differently
@@ -199,10 +205,10 @@ def merge(text, voice, video):
     total = 0
     if MP3(os.getcwd()+"\\audio.mp3").info.length < 120:
         #Merging the audio and video and then cutting it down to the audio's length to make future changes faster
-        clip = VideoFileClip(os.getcwd()+"\\"+video).subclip(0, MP3(os.getcwd()+"\\audio.mp3").info.length)
+        clip = VideoFileClip(os.getcwd()+"\\videos\\"+category+"\\"+video).subclip(0, MP3(os.getcwd()+"\\audio.mp3").info.length)
     else:
         #If the audio is longer than the video then the video will loop until it reaches the same length
-        clip = VideoFileClip(os.getcwd()+"\\"+video).loop(duration = MP3(os.getcwd()+"\\audio.mp3").info.length)
+        clip = VideoFileClip(os.getcwd()+"\\videos\\"+category+"\\"+video).loop(duration = MP3(os.getcwd()+"\\audio.mp3").info.length)
     #The progress bar is hidden for this save so that the user will not believe it is done here
     clip.write_videofile(os.getcwd()+"\\temp.mp4", audio=os.getcwd()+"\\audio.mp3", logger=None)
     
@@ -226,11 +232,7 @@ def merge(text, voice, video):
             tts.save(os.getcwd()+'\\sub.mp3')
         
         pre = total
-        total += MP3(os.getcwd()+'\\sub.mp3').info.length
-        
-        #Accounting for any pauses caused by commas
-        if (words[x][-1] == "," or words[x][-1] == "."):
-            total -= 0.1
+        total += MP3(os.getcwd()+'\\sub.mp3').info.length - 0.1
         
         #Creating the subtitle
         #This is where you make changes to edit the subtitles
@@ -266,4 +268,4 @@ text = Post('https://www.reddit.com/r/offmychest/comments/184umwe/i_gotta_get_th
 print(text)
 text = censorText(text)
 textToSpeech(text, 1)
-merge(text, 1, "vid2.mp4")
+merge(text, 1, "hor1.mp4","horror")
