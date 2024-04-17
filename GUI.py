@@ -26,6 +26,19 @@ def play():
     else:
         playsound.playsound(os.path.dirname(__file__) + '\\sample3.mp3')
 
+def isint(entry):
+    if entry == "":
+        warning_label.config(text = "Warning: Number of Subreddits is empty")
+        return True
+    elif str.isdigit(entry):
+        if int(entry)<= 20 and int(entry) >= 0:
+            if int(entry)>10:
+                warning_label.config(text = "Warning: Due to long loading times it is recommended to grab 10 or less Subreddits")
+            else:
+                warning_label.config(text = "")
+            return True
+    return False
+        
 # Create the main window
 window = tk.Tk()
 window.title("Video and Permutation Selector")
@@ -41,6 +54,8 @@ window.rowconfigure([0, 1, 2, 3, 4, 5], weight=1)
 video_var = tk.StringVar()
 perm_var = tk.StringVar()
 audio_var = tk.StringVar()
+sub_var = tk.StringVar()
+sub_count_var = tk.StringVar()
 
 # Welcome text label
 welcome_text = ("Welcome to our 4P02 final video production tool! This tool was developed in "
@@ -81,13 +96,32 @@ audio_dropdown.grid(column=0, row=6, padx=10, pady=5, sticky=tk.EW)
 audio_preview = ttk.Button(window, text="Sample", command=play)
 audio_preview.grid(column=0, row=7, padx=10, pady=10, sticky=tk.E)
 
+# Subreddit dropdown
+
+sub_label = ttk.Label(window, text="Select Subreddit:")
+sub_label.grid(column=0, row=8, padx=10, pady=5, sticky=tk.W)
+
+sub_dropdown = ttk.Combobox(window, textvariable=sub_var)
+sub_dropdown['values'] = ("nosleep", "PettyRevenge", "NuclearRevenge", "ExplainLikeImFive", "TIFU", "TalesFromTechSupport", "TalesFromRetail", "EntitledParents", "confessions", "confession","OffMyChest","TrueOffMyChest","AmItheAsshole","LegalAdvice","WritingPrompts")
+sub_dropdown.current(0)
+sub_dropdown['state'] = 'readonly'
+sub_dropdown.grid(column=0, row=9, padx=10, pady=5, sticky=tk.EW)
+
+count_label = ttk.Label(window, text="Select 1-20 Subreddits:")
+count_label.grid(column=0, row=10, padx=10, pady=5, sticky=tk.W)
+count_entry = tk.Entry(window, textvariable = sub_count_var)
+checkint = window.register(isint)
+count_entry.config(validate="all", validatecommand = (checkint, '%P'))
+count_entry.grid(column=0, row=11, padx=10, pady=5, sticky=tk.EW)
+warning_label = ttk.Label(window, text="Warning: Number of Subreddits is empty")
+warning_label.grid(column=0, row=12, padx=10, pady=5, sticky=tk.W)
+
 # Buttons
 cancel_button = ttk.Button(window, text="Cancel", command=cancel)
-cancel_button.grid(column=0, row=10, padx=10, pady=10, sticky=tk.E)
+cancel_button.grid(column=0, row=13, padx=10, pady=10, sticky=tk.E)
 
 generate_button = ttk.Button(window, text="Generate Request", command=generate_request)
-generate_button.grid(column=0, row=10, padx=10, pady=10, sticky=tk.W)
+generate_button.grid(column=0, row=13, padx=10, pady=10, sticky=tk.W)
 
 # Start the GUI event loop
 window.mainloop()
-
