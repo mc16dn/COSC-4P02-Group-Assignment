@@ -402,7 +402,7 @@ sub_dropdown.current(0)
 sub_dropdown['state'] = 'readonly'
 sub_dropdown.grid(column=0, row=2, padx=10, pady=5, sticky=tk.EW)
 
-type_label = ttk.Label(page_one, text="Select Subreddit:")
+type_label = ttk.Label(page_one, text="Select Sorting:")
 type_label.grid(column=0, row=3, padx=10, pady=5, sticky=tk.W)
 
 type_dropdown = ttk.Combobox(page_one, textvariable=type_var)
