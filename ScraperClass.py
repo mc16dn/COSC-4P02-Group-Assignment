@@ -28,6 +28,7 @@ class Post:
                 # Set the instance attributes based on the data
                 self.upvotes = post_data.get('ups', 0)  # Replace 'ups' with the correct key if different
                 self.subreddit = post_data.get('subreddit', 'Unknown Subreddit')
+                self.title = post_data.get('title', 'No Title')
                 self.text = post_data.get('selftext', 'No Text')
 
 # example of how to run this
