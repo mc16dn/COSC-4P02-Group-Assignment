@@ -43,6 +43,18 @@ except IOError:
         file.writelines(data)
     from moviepy.editor import *
 
+#Importing tkinter
+import tkinter as tk
+from tkinter import ttk
+
+
+#Importing playsound
+try:
+    import playsound as playsound
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install","--upgrade", "wheel"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "playsound==1.2.2"])
+    import playsound as playsound
 
 #Importing mutagen
 try:
@@ -51,14 +63,13 @@ except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "mutagen"])
     from mutagen.mp3 import MP3
     
-
 #Importing gtts
-try :
+try:
     from gtts import gTTS
 except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "gTTS"])
     from gtts import gTTS
-
+    
 #Inputs subreddit name, the number of post taken, ordering used, and how far back posts go
 #Outputs a list of strings that contains the URLs of each posts
 def grab_url(sub, count, category, time=None):
@@ -102,22 +113,19 @@ def grab_url(sub, count, category, time=None):
     #Retrieving the URLs and removing all useless data as it loops
     for x in range(count):
         y = 0
-        y = data.find("url")+7
-
+        y = data.find('url":')+7
         #In the case that there aren't enoug posts to fill the requested amount it will simply return what it could gather
         if (y == 6):
             print("{}{}{}".format("Error: There aren't enough entries, returning first ", x, " posts"))
             return (out)
         data = data[y:]
-        
-        out.append(Post(data[:data.find('", ')]+".json").url)
-    
+        out.append(Post(data[:data.find('", ')]+".json"))
     return (out)
 
 #censors inputed text from urlgrabber then replace banned
 #words with * and returns censored post
 
-def  censorText(postedstring):
+def censorText(postedstring):
     words =postedstring.split()
 
     for i , word in enumerate(words):
@@ -250,22 +258,237 @@ def merge(text, voice, video, category):
     #Removing all temporary data
     os.remove(os.getcwd()+"\\temp.mp4")
     os.remove(os.getcwd()+"\\sub.mp3")
+
+def sub_category(title):
+    global address
+    address = []
+    #Horror
+    if title in ["nosleep"]:
+        address.append("horror")
+    #lighthearted
+    #Because there is some overlap it is not an elif
+    if title in ["PettyRevenge", "NuclearRevenge", "TIFU", "TalesFromTechSupport", "TalesFromRetail", "EntitledParents"]:
+        address.append("lighthearted")
+    #Serious
+    if title in ["TIFU", "confessions", "confession","OffMyChest","TrueOffMyChest","AmItheAsshole","LegalAdvice"]:
+        address.append("serious")
     
+    x = 0
+    
+    out = []
+    
+    for i in address:
+        address[x] = os.path.dirname(__file__) + '\\videos\\' + address[x]
+        out.extend(os.listdir(address[x]))
+        x += 1
 
-#Takes the text "I fucking love cats. I love dogs. I love all animals.", censors it, then creates a TTS audiofile that replaced the swear with REDACTED but still have the subtitles as f******
+    return out
 
-text = "I fucking love cats. I love dogs. I love all animals."
-text = censorText(text)
-print(text)
-textToSpeech(text, 1)
+#GUI
+def cancel():
+    window.destroy()
 
-#merge(text, voice option, video file)
+def play():
+    if audio_dropdown.get() == "American":
+        playsound.playsound(os.path.dirname(__file__) + '\\sample1.mp3')
+    elif audio_dropdown.get() == "Australian":
+        playsound.playsound(os.path.dirname(__file__) + '\\sample2.mp3')
+    else:
+        playsound.playsound(os.path.dirname(__file__) + '\\sample3.mp3')
 
-t=grab_url("OffMyChest",1,"top")
-t=t[0]
+def isint(entry):
+    if entry == "":
+        warning_label.config(text = "Warning: Number of Subreddits is empty")
+        return True
+    elif str.isdigit(entry):
+        if int(entry)<= 20 and int(entry) >= 0:
+            if int(entry)>10:
+                warning_label.config(text = "Warning: Due to long loading times it is recommended to grab 10 or less Subreddits")
+            else:
+                warning_label.config(text = "")
+            return True
+    return False
 
-text = Post('https://www.reddit.com/r/offmychest/comments/184umwe/i_gotta_get_this_off_my_chest/.json').text
-print(text)
-text = censorText(text)
-textToSpeech(text, 1)
-merge(text, 1, "hor1.mp4","horror")
+def change_page(frame):
+    frame.tkraise()
+
+def change_page_posts(frame):
+    subs = grab_url(sub_var.get(), int(sub_count_var.get()), type_var.get(),date_var.get())
+    sub_titles = []
+    global sub_list
+    sub_list = []
+    for temp in subs:
+        sub_titles.append(temp.title)
+        sub_list.append(temp.text)
+    sub_choice_dropdown['values'] = (sub_titles)
+    text.insert(tk.END,sub_list[0])
+    sub_choice_dropdown.current(0)
+    frame.tkraise()
+
+def descriptionchange(frame):
+    global sub_list
+    text.delete('1.0', tk.END)
+    text.insert(tk.END,sub_list[sub_choice_dropdown.current()])
+
+def change_page_template(frame):
+    vid_dropdown['values'] = sub_category(sub_var.get())
+    vid_dropdown.current(0)
+    frame.tkraise()
+
+def change_final(frame):
+    a = vid_dropdown.get()[:3]
+    
+    if a == "lig":
+        path = "lighthearted"
+    
+    elif a == "ser":
+        path = "serious"
+        
+    elif a == "hor":
+        path = "horror"
+    else:
+        path = "custom"
+        
+    text = censorText(sub_list[sub_choice_dropdown.current()])
+    textToSpeech(text, audio_dropdown.current() + 1)
+    merge(text, audio_dropdown.current() + 1,vid_dropdown.get(), path)
+# Create the main window
+window = tk.Tk()
+page_one = tk.Frame(window)
+page_two = tk.Frame(window)
+page_three = tk.Frame(window)
+
+for frame in (page_one, page_two, page_three):
+    frame.grid(row=0, column=0, stick="news")
+
+window.title("Video and Permutation Selector")
+
+# Set the default size of the window
+window.geometry("600x500")  # Increased width to better fit the welcome text
+
+# Configure grid layout
+window.columnconfigure(0, weight=1)
+window.rowconfigure([0, 1, 2, 3, 4, 5], weight=1)
+
+# Variables for dropdowns
+date_var = tk.StringVar()
+vid_var = tk.StringVar()
+perm_var = tk.StringVar()
+audio_var = tk.StringVar()
+sub_var = tk.StringVar()
+sub_count_var = tk.StringVar()
+title_var = tk.StringVar()
+type_var = tk.StringVar()
+
+global sub_list
+sub_list = []
+
+# Welcome text label
+welcome_text = ("Welcome to our 4P02 final video production tool! This tool was developed in "
+                "order to create a video production pipeline to create content for short form "
+                "video platforms, as well as deployment and determining what performs well. "
+                "Please use the following menus to move forward!")
+welcome_label = ttk.Label(page_one, text=welcome_text, wraplength=550, justify="center")
+welcome_label.grid(column=0, row=0, padx=10, pady=10, sticky=tk.EW)
+
+# Page one for scrapping subreddits
+
+sub_label = ttk.Label(page_one, text="Select Subreddit:")
+sub_label.grid(column=0, row=1, padx=10, pady=5, sticky=tk.W)
+
+sub_dropdown = ttk.Combobox(page_one, textvariable=sub_var)
+sub_dropdown['values'] = ("PettyRevenge","nosleep", "NuclearRevenge", "TIFU", "TalesFromTechSupport", "TalesFromRetail", "EntitledParents", "confessions", "confession","OffMyChest","TrueOffMyChest","AmItheAsshole","LegalAdvice")
+sub_dropdown.current(0)
+sub_dropdown['state'] = 'readonly'
+sub_dropdown.grid(column=0, row=2, padx=10, pady=5, sticky=tk.EW)
+
+type_label = ttk.Label(page_one, text="Select Subreddit:")
+type_label.grid(column=0, row=3, padx=10, pady=5, sticky=tk.W)
+
+type_dropdown = ttk.Combobox(page_one, textvariable=type_var)
+type_dropdown['values'] = ("top", "hot", "new")
+type_dropdown.current(0)
+type_dropdown['state'] = 'readonly'
+type_dropdown.grid(column=0, row=4, padx=10, pady=5, sticky=tk.EW)
+
+date_label = ttk.Label(page_one, text="Select time interval (this will not do anything unless top is chosen):")
+date_label.grid(column=0, row=5, padx=10, pady=5, sticky=tk.W)
+
+date_dropdown = ttk.Combobox(page_one, textvariable=date_var)
+date_dropdown['values'] = ('hour', 'day', 'week', 'month', 'year', 'all')
+date_dropdown.current(0)
+date_dropdown['state'] = 'readonly'
+date_dropdown.grid(column=0, row=6, padx=10, pady=5, sticky=tk.EW)
+
+count_label = ttk.Label(page_one, text="Select 1-20 Subreddits:")
+count_label.grid(column=0, row=7, padx=10, pady=5, sticky=tk.W)
+count_entry = tk.Entry(page_one, textvariable = sub_count_var)
+checkint = page_one.register(isint)
+count_entry.config(validate="all", validatecommand = (checkint, '%P'))
+count_entry.grid(column=0, row=8, padx=10, pady=5, sticky=tk.EW)
+
+warning_label = ttk.Label(page_one, text="Warning: Number of Subreddits is empty")
+warning_label.grid(column=0, row=9, padx=10, pady=5, sticky=tk.W)
+
+# Buttons
+cancel_button = ttk.Button(page_one, text="Cancel", command=cancel)
+cancel_button.grid(column=0, row=10, padx=10, pady=10, sticky=tk.E)
+
+next_one_button = ttk.Button(page_one, text="Grab Reddit posts", command=lambda:change_page_posts(page_two))
+next_one_button.grid(column=0, row=10, padx=10, pady=10, sticky=tk.W)
+
+#Page two for choosing the specific post
+
+sub_choice_label = ttk.Label(page_two, text="Select Post:")
+sub_choice_label.place(x = 10, y = 10)
+
+sub_choice_dropdown = ttk.Combobox(page_two, textvariable=title_var, width = 85)
+sub_choice_dropdown.bind("<<ComboboxSelected>>", descriptionchange)
+sub_choice_dropdown.grid(column=0, row=0, padx=10, pady=5, sticky=tk.EW)
+
+fr = tk.Frame(page_two)
+fr.place(x = 10, y = 70)
+
+scroll = tk.Scrollbar(fr)
+text = tk.Text(fr, height = 20, width = 65, yscrollcommand=scroll.set)
+scroll.config(command=text.yview)
+text.pack(side="left")
+
+
+back_button = ttk.Button(page_two, text="Back", command=lambda:change_page(page_one))
+back_button.grid(column=0, row=1, padx=10, pady=10, sticky=tk.E)
+
+next_two_button = ttk.Button(page_two, text="Next page", command=lambda:change_page_template(page_three))
+next_two_button.grid(column=0, row=1, padx=10, pady=10, sticky=tk.W)
+
+#Page three for choosing video templates and voice
+
+vid_description = ttk.Label(page_three, text="Select Template:")
+vid_description.grid(column = 0, row=0, padx=10, pady=5, sticky=tk.EW)
+
+vid_dropdown = ttk.Combobox(page_three, textvariable=vid_var)
+vid_dropdown['values'] = ()
+vid_dropdown['state'] = 'readonly'
+vid_dropdown.grid(column=0, row=1, padx=10, pady=5, sticky=tk.EW)
+
+audio_label = ttk.Label(page_three, text="Select Voice:")
+audio_label.grid(column=0, row=2, padx=10, pady=5, sticky=tk.W)
+
+audio_dropdown = ttk.Combobox(page_three, textvariable=audio_var)
+audio_dropdown['values'] = ("American", "Australian", "British")
+audio_dropdown.current(0)
+audio_dropdown['state'] = 'readonly'
+audio_dropdown.grid(column=0, row=3, padx=10, pady=5, sticky=tk.EW)
+
+audio_preview = ttk.Button(page_three, text="Sample", command=play)
+audio_preview.grid(column=0, row=4, padx=10, pady=10, sticky=tk.W)
+
+back_three_button = ttk.Button(page_three, text="Back", command=lambda:change_page(page_two))
+back_three_button.grid(column=0, row=5, padx=10, pady=10, sticky=tk.E)
+
+next_three_button = ttk.Button(page_three, text="Next page", command=lambda:change_final(page_three))
+next_three_button.grid(column=0, row=5, padx=10, pady=10, sticky=tk.W)
+
+# Start the GUI event loop
+change_page(page_one)
+window.mainloop()
