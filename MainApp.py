@@ -5,6 +5,8 @@ from ScraperClass import *
 from banned_words import *
 import datetime
 import re
+import threading
+from VideoPlayer import VideoPlayer
 
 #Checking if ImageMagick has been installed and if Moviepy is correctly pointing to ImageMagick
 if not os.path.exists(os.environ["ProgramFiles"]+"\\ImageMagick-7.1.1-Q16-HDRI"):
@@ -45,7 +47,7 @@ except IOError:
 
 #Importing tkinter
 import tkinter as tk
-from tkinter import ttk
+from tkinter import filedialog, ttk
 
 
 #Importing playsound
@@ -245,7 +247,7 @@ def merge(text, voice, video, category):
         #Creating the subtitle
         #This is where you make changes to edit the subtitles
         #https://moviepy-tburrows13.readthedocs.io/en/improve-docs/ref/VideoClip/TextClip.html
-        sub = TextClip(words[x], fontsize = 110, color = 'white', size = (clip.w * 0.8,None), method = 'caption', stroke_color='black', stroke_width=4)
+        sub = TextClip(words[x], fontsize = 80, color = 'white', size = (clip.w,None), method = 'caption',font='Arial-Bold', stroke_color='black', stroke_width=4)
         sub = sub.set_start(pre)
         sub = sub.set_pos('top','center').margin(top=450, opacity=0).set_duration(total - pre)
         clips.append(sub)
@@ -253,7 +255,7 @@ def merge(text, voice, video, category):
     
     #Adding the clips that have the subtitles
     video = CompositeVideoClip(clips)
-    video.write_videofile(os.getcwd()+"\\end.mp4")
+    video.write_videofile(os.getcwd()+"\\end.mp4",logger="bar")
     
     #Removing all temporary data
     os.remove(os.getcwd()+"\\temp.mp4")
@@ -302,8 +304,8 @@ def isint(entry):
         return True
     elif str.isdigit(entry):
         if int(entry)<= 20 and int(entry) >= 0:
-            if int(entry)>10:
-                warning_label.config(text = "Warning: Due to long loading times it is recommended to grab 10 or less Subreddits")
+            if int(entry)>=10:
+                warning_label.config(text = "Warning: Due to long loading times it is recommended to grab less then 10 Subreddits")
             else:
                 warning_label.config(text = "")
             return True
@@ -313,7 +315,19 @@ def change_page(frame):
     frame.tkraise()
 
 def change_page_posts(frame):
-    subs = grab_url(sub_var.get(), int(sub_count_var.get()), type_var.get(),date_var.get())
+    #selection modifer 
+    if(date_var.get()=='past hour'):
+        t="hour"
+    elif(date_var.get()=='past day'):
+        t="day"
+    elif(date_var.get()=='past week'):
+        t="week"
+    elif(date_var.get()=='past month'):    
+        t="month"    
+    elif(date_var.get()=='past year'):
+        t="year"
+
+    subs = grab_url(sub_var.get(), int(sub_count_var.get()), type_var.get(),t)
     sub_titles = []
     global sub_list
     sub_list = []
@@ -335,6 +349,15 @@ def change_page_template(frame):
     vid_dropdown.current(0)
     frame.tkraise()
 
+def openfile():
+   global filepath
+   filepath=filedialog.askopenfilename()
+  
+
+def open_video(filepath):
+    vp=VideoPlayer(filepath)
+    vp.mainloop()
+    
 def change_final(frame):
     a = vid_dropdown.get()[:3]
     
@@ -364,7 +387,7 @@ for frame in (page_one, page_two, page_three):
 window.title("Video and Permutation Selector")
 
 # Set the default size of the window
-window.geometry("600x500")  # Increased width to better fit the welcome text
+window.geometry("600x700")  # Increased width to better fit the welcome text
 
 # Configure grid layout
 window.columnconfigure(0, weight=1)
@@ -379,7 +402,6 @@ sub_var = tk.StringVar()
 sub_count_var = tk.StringVar()
 title_var = tk.StringVar()
 type_var = tk.StringVar()
-
 global sub_list
 sub_list = []
 
@@ -411,14 +433,15 @@ type_dropdown.current(0)
 type_dropdown['state'] = 'readonly'
 type_dropdown.grid(column=0, row=4, padx=10, pady=5, sticky=tk.EW)
 
-date_label = ttk.Label(page_one, text="Select time interval (this will not do anything unless top is chosen):")
+date_label = ttk.Label(page_one, text="Select time interval for post date (this will not do anything unless top is chosen):")
 date_label.grid(column=0, row=5, padx=10, pady=5, sticky=tk.W)
 
 date_dropdown = ttk.Combobox(page_one, textvariable=date_var)
-date_dropdown['values'] = ('hour', 'day', 'week', 'month', 'year', 'all')
+date_dropdown['values'] = ('past hour', 'past day', 'past week', 'past month', 'past year', 'all')
 date_dropdown.current(0)
 date_dropdown['state'] = 'readonly'
 date_dropdown.grid(column=0, row=6, padx=10, pady=5, sticky=tk.EW)
+
 
 count_label = ttk.Label(page_one, text="Select 1-20 Subreddits:")
 count_label.grid(column=0, row=7, padx=10, pady=5, sticky=tk.W)
@@ -444,6 +467,7 @@ sub_choice_label.place(x = 10, y = 10)
 
 sub_choice_dropdown = ttk.Combobox(page_two, textvariable=title_var, width = 85)
 sub_choice_dropdown.bind("<<ComboboxSelected>>", descriptionchange)
+sub_choice_dropdown['state'] = 'readonly'
 sub_choice_dropdown.grid(column=0, row=0, padx=10, pady=5, sticky=tk.EW)
 
 fr = tk.Frame(page_two)
@@ -464,30 +488,41 @@ next_two_button.grid(column=0, row=1, padx=10, pady=10, sticky=tk.W)
 #Page three for choosing video templates and voice
 
 vid_description = ttk.Label(page_three, text="Select Template:")
-vid_description.grid(column = 0, row=0, padx=10, pady=5, sticky=tk.EW)
+vid_description.grid(column = 1, row=0, padx=10, pady=5, sticky=tk.EW)
 
 vid_dropdown = ttk.Combobox(page_three, textvariable=vid_var)
 vid_dropdown['values'] = ()
 vid_dropdown['state'] = 'readonly'
-vid_dropdown.grid(column=0, row=1, padx=10, pady=5, sticky=tk.EW)
+vid_dropdown.grid(column=1, row=1, padx=10, pady=5, sticky=tk.EW)
+
 
 audio_label = ttk.Label(page_three, text="Select Voice:")
-audio_label.grid(column=0, row=2, padx=10, pady=5, sticky=tk.W)
+audio_label.grid(column=1, row=3, padx=10, pady=5, sticky="w")
 
 audio_dropdown = ttk.Combobox(page_three, textvariable=audio_var)
 audio_dropdown['values'] = ("American", "Australian", "British")
 audio_dropdown.current(0)
 audio_dropdown['state'] = 'readonly'
-audio_dropdown.grid(column=0, row=3, padx=10, pady=5, sticky=tk.EW)
+audio_dropdown.grid(column=1, row=5, padx=10, pady=5, sticky=tk.W)
+
 
 audio_preview = ttk.Button(page_three, text="Sample", command=play)
-audio_preview.grid(column=0, row=4, padx=10, pady=10, sticky=tk.W)
+audio_preview.grid(column=2, row=5, padx=10, pady=10, sticky=tk.W)
 
 back_three_button = ttk.Button(page_three, text="Back", command=lambda:change_page(page_two))
-back_three_button.grid(column=0, row=5, padx=10, pady=10, sticky=tk.E)
+back_three_button.grid(column=1, row=6, padx=10, pady=50, sticky=tk.W)
 
 next_three_button = ttk.Button(page_three, text="Next page", command=lambda:change_final(page_three))
-next_three_button.grid(column=0, row=5, padx=10, pady=10, sticky=tk.W)
+next_three_button.grid(column=2, row=6, padx=10, pady=50, sticky=tk.E)
+
+
+select_file = ttk.Button(page_three, text="load file", command=lambda:openfile())
+select_file.grid(column=2, row=1, padx=10, pady=5, sticky=tk.W)
+
+video_button =tk.Button(page_three, text="preview Video", command=lambda:open_video(filepath))
+video_button.grid(column=3, row=1, padx=10, pady=5, sticky=tk.E)
+
+
 
 # Start the GUI event loop
 change_page(page_one)
