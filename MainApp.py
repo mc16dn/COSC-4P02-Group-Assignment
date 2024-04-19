@@ -131,7 +131,7 @@ def censorText(postedstring):
     words =postedstring.split()
 
     for i , word in enumerate(words):
-
+        
         if word.lower() in banned_words:
             words[i]= words[i][0]+'*'*(len(word)-1)
         censored_post = ' '.join(words)
@@ -169,8 +169,7 @@ def censorTTS(postedstring):
 #input a string of text as the text parameter, voice will be either 1, 2 or 3 for different accents
 # Will output an mp3 reading text
 def textToSpeech(text, voice):
-
-    text = censorTTS(text)
+    print("Generating Audio")
     
     if voice == 1:
         tts = gTTS(text, lang="en", tld='us')
@@ -201,7 +200,7 @@ def textToSpeech(text, voice):
 
 
 #Merges the audio and video while also creating subtitles
-#The categories for videos are horror, lighthearted, seriuous, and custom
+#The categories for videos are lighthearted and seriuous
 def merge(text, voice, video, category):
 
     #Censoring the text then dividing it into pauses (anything that causes the speaker to pause)
@@ -264,9 +263,6 @@ def merge(text, voice, video, category):
 def sub_category(title):
     global address
     address = []
-    #Horror
-    if title in ["nosleep"]:
-        address.append("horror")
     #lighthearted
     #Because there is some overlap it is not an elif
     if title in ["PettyRevenge", "NuclearRevenge", "TIFU", "TalesFromTechSupport", "TalesFromRetail", "EntitledParents"]:
@@ -335,9 +331,12 @@ def change_page_posts(frame):
         sub_titles.append(temp.title)
         sub_list.append(temp.text)
     sub_choice_dropdown['values'] = (sub_titles)
-    text.insert(tk.END,sub_list[0])
-    sub_choice_dropdown.current(0)
-    frame.tkraise()
+    if len(sub_list) == 0:
+        warning_label.config(text = "Warning: There are no posts that fit your requirements")
+    else:
+        text.insert(tk.END,sub_list[0])
+        sub_choice_dropdown.current(0)
+        frame.tkraise()
 
 def descriptionchange(frame):
     global sub_list
@@ -359,22 +358,17 @@ def open_video(filepath):
     vp.mainloop()
     
 def change_final(frame):
-    a = vid_dropdown.get()[:3]
     
-    if a == "lig":
+    if vid_dropdown.get()[:3] == "lig":
         path = "lighthearted"
     
-    elif a == "ser":
-        path = "serious"
-        
-    elif a == "hor":
-        path = "horror"
     else:
-        path = "custom"
-        
+        path = "serious"
+    
     text = censorText(sub_list[sub_choice_dropdown.current()])
     textToSpeech(text, audio_dropdown.current() + 1)
     merge(text, audio_dropdown.current() + 1,vid_dropdown.get(), path)
+
 # Create the main window
 window = tk.Tk()
 page_one = tk.Frame(window)
@@ -387,7 +381,7 @@ for frame in (page_one, page_two, page_three):
 window.title("Video and Permutation Selector")
 
 # Set the default size of the window
-window.geometry("600x700")  # Increased width to better fit the welcome text
+window.geometry("600x450")  # Increased width to better fit the welcome text
 
 # Configure grid layout
 window.columnconfigure(0, weight=1)
@@ -419,7 +413,7 @@ sub_label = ttk.Label(page_one, text="Select Subreddit:")
 sub_label.grid(column=0, row=1, padx=10, pady=5, sticky=tk.W)
 
 sub_dropdown = ttk.Combobox(page_one, textvariable=sub_var)
-sub_dropdown['values'] = ("PettyRevenge","nosleep", "NuclearRevenge", "TIFU", "TalesFromTechSupport", "TalesFromRetail", "EntitledParents", "confessions", "confession","OffMyChest","TrueOffMyChest","AmItheAsshole","LegalAdvice")
+sub_dropdown['values'] = ("PettyRevenge", "NuclearRevenge", "TIFU", "TalesFromTechSupport", "TalesFromRetail", "EntitledParents", "confessions", "confession","OffMyChest","TrueOffMyChest","AmItheAsshole","LegalAdvice")
 sub_dropdown.current(0)
 sub_dropdown['state'] = 'readonly'
 sub_dropdown.grid(column=0, row=2, padx=10, pady=5, sticky=tk.EW)
@@ -509,11 +503,14 @@ audio_dropdown.grid(column=1, row=5, padx=10, pady=5, sticky=tk.W)
 audio_preview = ttk.Button(page_three, text="Sample", command=play)
 audio_preview.grid(column=2, row=5, padx=10, pady=10, sticky=tk.W)
 
-back_three_button = ttk.Button(page_three, text="Back", command=lambda:change_page(page_two))
-back_three_button.grid(column=1, row=6, padx=10, pady=50, sticky=tk.W)
+length_warning = ttk.Label(page_three, text="Warning: video generation can take 10-50 minutes")
+length_warning.grid(column=1, row=6, padx=10, pady=10, sticky=tk.E)
 
-next_three_button = ttk.Button(page_three, text="Next page", command=lambda:change_final(page_three))
-next_three_button.grid(column=2, row=6, padx=10, pady=50, sticky=tk.E)
+back_three_button = ttk.Button(page_three, text="Back", command=lambda:change_page(page_two))
+back_three_button.grid(column=2, row=7, padx=10, pady=20, sticky=tk.E)
+
+next_three_button = ttk.Button(page_three, text="Generate Video", command=lambda:change_final(page_three))
+next_three_button.grid(column=1, row=7, padx=10, pady=20, sticky=tk.W)
 
 
 select_file = ttk.Button(page_three, text="load file", command=lambda:openfile())
