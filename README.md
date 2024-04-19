@@ -27,7 +27,7 @@ The application may be customized to meet the needs of the user and updated to r
 - readme.so (Updating text files)
 - Jira (Designing roadmaps, backlogs, sprints)
 - Miro (Organizing product roadmaps, meeting schedule & sprint feedback session)
-
+- VLC
 ## Build Status:
 - Regular ongoing meetings occurring to talk about the backbone of the bot and get the team proposal on hand.
 - Proposal ready & waiting for confirmation.
