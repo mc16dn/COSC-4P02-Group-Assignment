@@ -376,6 +376,10 @@ def change_final(frame):
     text = censorText(sub_list[sub_choice_dropdown.current()])
     textToSpeech(text, audio_dropdown.current() + 1)
     merge(text, audio_dropdown.current() + 1,vid_dropdown.get(), path)
+    final_button =tk.Button(page_three, text="Final video", command=lambda:open_video("end.mp4"))
+    final_button.grid(column=3, row=7, padx=10, pady=5, sticky=tk.E)
+
+
 
 # Create the main window
 window = tk.Tk()
