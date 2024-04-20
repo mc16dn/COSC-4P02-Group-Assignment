@@ -348,14 +348,17 @@ def change_page_template(frame):
     vid_dropdown['values'] = sub_category(sub_var.get())
     vid_dropdown.current(0)
     frame.tkraise()
-
-def openfile():
-   global filepath
-   filepath=filedialog.askopenfilename()
   
 
-def open_video(filepath):
-    vp=VideoPlayer(filepath)
+def open_video():
+
+    if vid_dropdown.get()[:3] == "lig":
+        path = "lighthearted"
+
+    else:
+        path = "serious"
+        
+    vp=VideoPlayer(os.getcwd()+"\\videos\\"+path+"\\"+vid_dropdown.get())
     vp.mainloop()
     
 def change_final(frame):
@@ -365,7 +368,7 @@ def change_final(frame):
     
     else:
         path = "serious"
-    
+
     text = censorText(sub_list[sub_choice_dropdown.current()])
     textToSpeech(text, audio_dropdown.current() + 1)
     merge(text, audio_dropdown.current() + 1,vid_dropdown.get(), path)
@@ -513,12 +516,8 @@ back_three_button.grid(column=2, row=7, padx=10, pady=20, sticky=tk.E)
 next_three_button = ttk.Button(page_three, text="Generate Video", command=lambda:change_final(page_three))
 next_three_button.grid(column=1, row=7, padx=10, pady=20, sticky=tk.W)
 
-
-select_file = ttk.Button(page_three, text="load file", command=lambda:openfile())
-select_file.grid(column=2, row=1, padx=10, pady=5, sticky=tk.W)
-
-video_button =tk.Button(page_three, text="preview Video", command=lambda:open_video(filepath))
-video_button.grid(column=3, row=1, padx=10, pady=5, sticky=tk.E)
+video_button =tk.Button(page_three, text="preview Video", command=lambda:open_video())
+video_button.grid(column=2, row=1, padx=10, pady=5, sticky=tk.E)
 
 
 
