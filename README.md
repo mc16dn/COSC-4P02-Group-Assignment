@@ -19,9 +19,9 @@ The application may be customized to meet the needs of the user and updated to r
 | Maisam Anjum | Developer 3  | 6804298 | ma19an@brocku.ca | Koorikdat |
 
 
-##Required Programs:
+## Required Programs:
 -VLC: https://www.videolan.org/
--API rregistration: 
+-API registration: 
 
 ## Frameworks used:
 - Python
