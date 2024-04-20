@@ -334,6 +334,7 @@ def change_page_posts(frame):
     if len(sub_list) == 0:
         warning_label.config(text = "Warning: There are no posts that fit your requirements")
     else:
+        text.delete('1.0', tk.END)
         text.insert(tk.END,sub_list[0])
         sub_choice_dropdown.current(0)
         frame.tkraise()
