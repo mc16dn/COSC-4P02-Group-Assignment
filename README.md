@@ -21,7 +21,6 @@ The application may be customized to meet the needs of the user and updated to r
 ## Frameworks used:
 - Python
 - Text to Speech
-- TikTok
 - Youtube 
 - Reddit
 - readme.so (Updating text files)
