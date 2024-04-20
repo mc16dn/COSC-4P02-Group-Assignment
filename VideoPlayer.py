@@ -1,11 +1,16 @@
-import os
+import subprocess,sys,os
 import tkinter as tk
 from tkinter import filedialog, ttk
-import vlc
+try:
+    import vlc
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "python-vlc"])
+    import vlc
+        
 
 class VideoPlayer(tk.Tk):
+    
     vlc_instance = vlc.Instance()
-
     def __init__(self,video_path=None):
         super().__init__()
         self.title("VLC Video Player")
