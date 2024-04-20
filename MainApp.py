@@ -279,6 +279,8 @@ def sub_category(title):
     for i in address:
         address[x] = os.path.dirname(__file__) + '\\videos\\' + address[x]
         out.extend(os.listdir(address[x]))
+        if "Read me.txt" in out:
+            out.remove("Read me.txt")
         x += 1
 
     return out
