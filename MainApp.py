@@ -270,7 +270,8 @@ def sub_category(title):
     #Serious
     if title in ["TIFU", "confessions", "confession","OffMyChest","TrueOffMyChest","AmItheAsshole","LegalAdvice"]:
         address.append("serious")
-    
+        
+    address.append("custom")
     x = 0
     
     out = []
@@ -355,8 +356,11 @@ def open_video():
     if vid_dropdown.get()[:3] == "lig":
         path = "lighthearted"
 
-    else:
+    elif vid_dropdown.get()[:3] == "ser":
         path = "serious"
+    
+    else:
+        path = "custom"
         
     vp=VideoPlayer(os.getcwd()+"\\videos\\"+path+"\\"+vid_dropdown.get())
     vp.mainloop()
