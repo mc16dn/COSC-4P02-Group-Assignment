@@ -20,7 +20,7 @@ The application may be customized to meet the needs of the user and updated to r
 
 
 ## Required Programs:
-- VLC: https://www.videolan.org/
+- VLC(64 bit): https://www.videolan.org/
 - API registration: https://docs.google.com/document/d/1H72scctGxD0zaGiVjhwRCJZP5qJYSNIYLv9UBGZe2ms/edit
 
 ## Frameworks used:
