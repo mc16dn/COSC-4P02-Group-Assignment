@@ -159,9 +159,9 @@ def censorTTS(postedstring):
     words =postedstring.split()
 
     for i , word in enumerate(words):
-
-        if "*" in word:
-            words[i]= "REDACTED"
+        
+        if word.lower() in banned_words:
+            words[i]= "Redacted"
         censored_post = ' '.join(words)
 
     return censored_post
@@ -366,6 +366,10 @@ def open_video():
         
     vp=VideoPlayer(os.getcwd()+"\\videos\\"+path+"\\"+vid_dropdown.get())
     vp.mainloop()
+
+def final_video(file):
+    vp=VideoPlayer(file)
+    vp.mainloop()
     
 def change_final(frame):
     
@@ -378,7 +382,7 @@ def change_final(frame):
     text = censorText(sub_list[sub_choice_dropdown.current()])
     textToSpeech(text, audio_dropdown.current() + 1)
     merge(text, audio_dropdown.current() + 1,vid_dropdown.get(), path)
-    final_button =tk.Button(page_three, text="Final video", command=lambda:open_video("end.mp4"))
+    final_button =tk.Button(page_three, text="Final video", command=lambda:final_video("end.mp4"))
     final_button.grid(column=3, row=7, padx=10, pady=5, sticky=tk.E)
 
 
