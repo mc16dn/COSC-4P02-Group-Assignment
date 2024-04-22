@@ -1,17 +1,34 @@
 import subprocess
 import sys
 import os
+
+try:
+    import pandas
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "pandas"])
+    import pandas
+
+try:
+    from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+    from matplotlib.figure import Figure
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "matplotlib"])
+    from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+    from matplotlib.figure import Figure
+    
+try:
+    from analytix import Client
+except:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "analytix"])
+    from analytix import Client
+    
 from ScraperClass import *
 from banned_words import *
 from createAnalytics import*
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
 import datetime
 import re
 import threading
 from VideoPlayer import VideoPlayer
-from analytix import Client
-import pandas
 
 #Checking if ImageMagick has been installed and if Moviepy is correctly pointing to ImageMagick
 if not os.path.exists(os.environ["ProgramFiles"]+"\\ImageMagick-7.1.1-Q16-HDRI"):
@@ -232,7 +249,9 @@ def merge(text, voice, video, category):
     
     #Determining how long a subtitle remains on screen
     for x, word in enumerate(words):
-    
+        
+        print("Generating subtitles: " + str(x + 1) + " out of " + str(len(words)))
+        
         if voice == 1:
             tts = gTTS(censorwords[x], lang="en", tld='us')
             tts.save(os.getcwd()+'\\sub.mp3')
@@ -396,6 +415,8 @@ def change_final(frame):
     text = censorText(sub_list[sub_choice_dropdown.current()])
     textToSpeech(text, audio_dropdown.current() + 1)
     merge(text, audio_dropdown.current() + 1,vid_dropdown.get(), path)
+    vp=VideoPlayer(os.getcwd()+"\\end.mp4")
+    vp.mainloop()
 
 def createGraph(fileName, category):
     x=[]
@@ -419,7 +440,6 @@ def createGraph(fileName, category):
     ax.set_xlabel('date')
     ax.set_ylabel(category)
     graph_canvas.draw()
-    
 
 # Create the main window
 window = tk.Tk()
@@ -484,7 +504,7 @@ date_label.grid(column=0, row=5, padx=10, pady=5, sticky=tk.W)
 
 date_dropdown = ttk.Combobox(page_one, textvariable=date_var)
 date_dropdown['values'] = ('past hour', 'past day', 'past week', 'past month', 'past year', 'all')
-date_dropdown.current(0)
+date_dropdown.current(1)
 date_dropdown['state'] = 'readonly'
 date_dropdown.grid(column=0, row=6, padx=10, pady=5, sticky=tk.EW)
 
