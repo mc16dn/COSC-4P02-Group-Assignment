@@ -3,10 +3,15 @@ import sys
 import os
 from ScraperClass import *
 from banned_words import *
+from createAnalytics import*
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
 import datetime
 import re
 import threading
 from VideoPlayer import VideoPlayer
+from analytix import Client
+import pandas
 
 #Checking if ImageMagick has been installed and if Moviepy is correctly pointing to ImageMagick
 if not os.path.exists(os.environ["ProgramFiles"]+"\\ImageMagick-7.1.1-Q16-HDRI"):
@@ -348,6 +353,11 @@ def change_page_template(frame):
     vid_dropdown['values'] = sub_category(sub_var.get())
     vid_dropdown.current(0)
     frame.tkraise()
+def change_page_analytics(frame):
+    #ytAnalytics() #This will get information from a youtube channel assuming a secrets.json file is supplied
+    generateYTAnalytics(2023,5,4,categories)  #will need to be modifed if a youtube channel is used
+
+    frame.tkraise()
 
 def openfile():
    global filepath
@@ -375,19 +385,44 @@ def change_final(frame):
     text = censorText(sub_list[sub_choice_dropdown.current()])
     textToSpeech(text, audio_dropdown.current() + 1)
     merge(text, audio_dropdown.current() + 1,vid_dropdown.get(), path)
+
+def createGraph(fileName, category):
+    x=[]
+    y=[]
+    
+    with open ('./Outputs/'+fileName, 'r') as csvFile:
+        lines = csv.reader(csvFile)
+
+        for row in lines:
+            if (row[0] == 'day'):
+                col = row.index(category)
+            else:
+             
+                x.append(row[0])
+                y.append(int(row[col]))
+
+    ax.cla()
+    ax.plot(x,y)
+    
+    ax.tick_params(axis = 'x', rotation=90)
+    ax.set_xlabel('date')
+    ax.set_ylabel(category)
+    graph_canvas.draw()
+    
+
 # Create the main window
 window = tk.Tk()
 page_one = tk.Frame(window)
 page_two = tk.Frame(window)
 page_three = tk.Frame(window)
-
-for frame in (page_one, page_two, page_three):
+page_four = tk.Frame(window)
+for frame in (page_one, page_two, page_three, page_four):
     frame.grid(row=0, column=0, stick="news")
 
 window.title("Video and Permutation Selector")
 
 # Set the default size of the window
-window.geometry("600x700")  # Increased width to better fit the welcome text
+window.geometry("650x700")  # Increased width to better fit the welcome text
 
 # Configure grid layout
 window.columnconfigure(0, weight=1)
@@ -460,6 +495,9 @@ cancel_button.grid(column=0, row=10, padx=10, pady=10, sticky=tk.E)
 next_one_button = ttk.Button(page_one, text="Grab Reddit posts", command=lambda:change_page_posts(page_two))
 next_one_button.grid(column=0, row=10, padx=10, pady=10, sticky=tk.W)
 
+sign_in_button = ttk.Button(page_one, text="Check Youtube Analytics", command=lambda:change_page_analytics(page_four))
+sign_in_button.grid(column=0, row=10, padx=200, pady=10, sticky=tk.W)
+
 #Page two for choosing the specific post
 
 sub_choice_label = ttk.Label(page_two, text="Select Post:")
@@ -523,7 +561,37 @@ video_button =tk.Button(page_three, text="preview Video", command=lambda:open_vi
 video_button.grid(column=3, row=1, padx=10, pady=5, sticky=tk.E)
 
 
+#page four for generating analytics
+fr = tk.Frame(page_four)
+graphsDir = os.listdir('./Outputs/')
+categories = []
+with open('template.csv') as col:
+    lines = csv.reader(col, delimiter = ',')
+    categories = list(lines)[0]
+   
+date_label = ttk.Label (page_four, text="Select the date")
+date_label.grid(column=1, row=1, padx=20, pady=5, sticky="w")
 
+category_label = ttk.Label (page_four, text="Select the category")
+category_label.grid(column=2, row=1, padx=10, pady=5, sticky="w")
+
+analytics_date_dropdown = ttk.Combobox(page_four, values= graphsDir, width = 40)
+analytics_date_dropdown.grid(column=1, row=50, padx= 20, pady=0, sticky=tk.EW)
+analytics_date_dropdown.current(0)
+analytics_date_dropdown['state'] = 'readonly'
+
+analytics_category_dropdown = ttk.Combobox(page_four, values= categories[1:], width = 40)
+analytics_category_dropdown.grid(column=2, row=50, padx= 10, pady=0, sticky=tk.EW)
+analytics_category_dropdown.current(0)
+analytics_category_dropdown['state'] = 'readonly'
+
+analytics_confirmation_button = tk.Button(page_four, text="view graph", command=lambda:createGraph(str(analytics_date_dropdown.get()),analytics_category_dropdown.get()))
+analytics_confirmation_button.grid (column=1, row=150, columnspan= 2,padx= 20, pady=0, sticky=tk.EW)
+
+fig = Figure()
+ax = fig.add_subplot()
+graph_canvas = FigureCanvasTkAgg(fig, master = page_four)
+graph_canvas.get_tk_widget().grid(column=0, row=250,columnspan=3, padx= 20, pady=20)
 # Start the GUI event loop
 change_page(page_one)
 window.mainloop()
