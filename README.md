@@ -18,16 +18,26 @@ The application may be customized to meet the needs of the user and updated to r
 | Matthew Cam | Developer 2  | 6195556 | mc16dn@brocku.ca | mc16dn |
 | Maisam Anjum | Developer 3  | 6804298 | ma19an@brocku.ca | Koorikdat |
 
+
+## Required Programs:
+- VLC(64 bit): https://www.videolan.org/
+- API registration: https://docs.google.com/document/d/1H72scctGxD0zaGiVjhwRCJZP5qJYSNIYLv9UBGZe2ms/edit
+
 ## Frameworks used:
 - Python
 - Text to Speech
-- TikTok
 - Youtube 
 - Reddit
 - readme.so (Updating text files)
 - Jira (Designing roadmaps, backlogs, sprints)
 - Miro (Organizing product roadmaps, meeting schedule & sprint feedback session)
 - VLC
+- ImageMagick
+- moviePy
+- Tkinter
+- playsound
+- GTTS
+- mutagen
 ## Build Status:
 - Regular ongoing meetings occurring to talk about the backbone of the bot and get the team proposal on hand.
 - Proposal ready & waiting for confirmation.

@@ -1,11 +1,16 @@
-import os
+import subprocess,sys,os
 import tkinter as tk
 from tkinter import filedialog, ttk
-import vlc
+try:
+    import vlc
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "python-vlc"])
+    import vlc
+        
 
 class VideoPlayer(tk.Tk):
+    
     vlc_instance = vlc.Instance()
-
     def __init__(self,video_path=None):
         super().__init__()
         self.title("VLC Video Player")
@@ -17,8 +22,15 @@ class VideoPlayer(tk.Tk):
         self.setup_ui()
         if video_path:
             self.setup_video(video_path)
-        
 
+        self.protocol("WM_DELETE_WINDOW", self.on_close)
+
+    def on_close(self):
+        #Handles window close events.
+        if self.player.is_playing():
+            self.player.stop()  # Stop the player
+        self.player.release()  # Release the player resources
+        self.destroy()  # Destroy the window
     def play_video(self):
         self.player.play()
 
@@ -115,7 +127,7 @@ class VideoPlayer(tk.Tk):
 
 #to test video file 
 if __name__=="__main__":
-    video_path="C:/Users/thefu/Downloads/new proj file/COSC-4P02-Group-Assignment-main (6)/COSC-4P02-Group-Assignment-main/videos/lighthearted/lig3.mp4"
+    video_path="C:/Users/thefu/Downloads/new proj file/COSC-4P02-Group-Assignment-main (6)/COSC-4P02-Group-Assignment-main/end.mp4"
     app=VideoPlayer(video_path)
     app.mainloop()
 
