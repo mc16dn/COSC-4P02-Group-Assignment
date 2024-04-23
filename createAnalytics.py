@@ -52,19 +52,21 @@ def ytAnalyticsDate (startDate, endDate):
     client = Client("secrets.json")
     
     report = client.fetch_report(
-    dimensions=("day",),
-    start_date= startDate,
+        dimensions=("day",),
+        start_date= startDate,
         end_date=endDate,
+        sort_options=("-views",)
     )
     report.to_csv('./Outputs/'+name + ".csv", overwrite=True)
 
-def generateYTAnalytics(startingYear, startingMonth, endingMonth,categories):
+def generateYTAnalytics(categories):
     min = 30 #This is to emulate a steady growth in a youtube channel, this will not be used when you pull from your own analytics so it should be removed
     max = 200
-    currMonth = startingMonth
-    currYear = startingYear
+    endingMonth = datetime.date.today().month
+    currYear = datetime.date.today().year -1
+    currMonth = endingMonth
     if (os.path.isfile('secrets.json')):
-        while (currMonth != endingMonth): #This loop will replaced with ytAnalyticsDate(startingdate,enddate) for a working yt channel
+        while True: #This loop will replaced with ytAnalyticsDate(startingdate,enddate) for a working yt channel
             if (currMonth > 12):
                 currMonth = 1
                 currYear +=1
@@ -73,13 +75,25 @@ def generateYTAnalytics(startingYear, startingMonth, endingMonth,categories):
             endingdate = datetime.date (currYear,currMonth,numofdays) #end of the month
             ytAnalyticsDate(startingdate,endingdate)
             currMonth+=1
+            if (currMonth == endingMonth): #if they are the same, run it one more time
+                startingdate = datetime.date(currYear,currMonth,1) #beginning of the month
+                numofdays = calendar.monthrange(currYear,currMonth)[1] #number of days in the month
+                endingdate = datetime.date (currYear,currMonth,numofdays) #end of the month
+                ytAnalyticsDate(startingdate,endingdate)
+                break
     else:
-        while (currMonth != endingMonth): #This loop will replaced with ytAnalyticsDate(startingdate,enddate) for a working yt channel
+        while True: #This loop will replaced with ytAnalyticsDate(startingdate,enddate) for a working yt channel
             if (currMonth > 12):
                 currMonth = 1
                 currYear +=1
+            fileName = str(currYear) + '_' + str(currMonth)
             createTestAnalyticsM(currYear,currMonth,categories,min,max,fileName)  #Creates a csv file with all the data for each month in the file.
             currMonth+=1
+            if (currMonth == endingMonth):
+                fileName = str(currYear) + '_' + str(currMonth)
+                createTestAnalyticsM(currYear,currMonth,categories,min,max,fileName) 
+                break
+                
 
  
 

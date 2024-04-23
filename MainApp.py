@@ -378,8 +378,12 @@ def change_page_template(frame):
 def change_page_analytics(frame):
     if (os.path.isfile('secrets.json')):
         ytAnalytics() #This will get information from a youtube channel assuming a secrets.json file is supplied
+    graphsDir = os.listdir('./Outputs/')
+    for i in graphsDir:
+        os.remove('./Outputs/'+ i)
+
+    generateYTAnalytics(categories)  
     
-    generateYTAnalytics(2023,5,4,categories)  
     graphsDir = os.listdir('./Outputs/')
     analytics_date_dropdown['values'] = graphsDir
     analytics_date_dropdown.current(0)
