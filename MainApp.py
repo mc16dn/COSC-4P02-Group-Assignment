@@ -357,9 +357,13 @@ def change_page_template(frame):
     vid_dropdown.current(0)
     frame.tkraise()
 def change_page_analytics(frame):
-    #ytAnalytics() #This will get information from a youtube channel assuming a secrets.json file is supplied
-    generateYTAnalytics(2023,5,4,categories)  #will need to be modifed if a youtube channel is used
-
+    if (os.path.isfile('secrets.json')):
+        ytAnalytics() #This will get information from a youtube channel assuming a secrets.json file is supplied
+    
+    generateYTAnalytics(2023,5,4,categories)  
+    graphsDir = os.listdir('./Outputs/')
+    analytics_date_dropdown['values'] = graphsDir
+    analytics_date_dropdown.current(0)
     frame.tkraise()
 
 def openfile():
@@ -499,6 +503,9 @@ count_entry.grid(column=0, row=8, padx=10, pady=5, sticky=tk.EW)
 warning_label = ttk.Label(page_one, text="Warning: Number of Subreddits is empty")
 warning_label.grid(column=0, row=9, padx=10, pady=5, sticky=tk.W)
 
+disclaimer_label = warning_label = ttk.Label(page_one, text="If there is no secrets file in the project file, CheckAnalysis \nwill run with a randomly generated example")
+disclaimer_label.grid(column = 0, row = 11, padx = 180, pady=9, sticky=tk.W)
+
 # Buttons
 cancel_button = ttk.Button(page_one, text="Cancel", command=cancel)
 cancel_button.grid(column=0, row=10, padx=10, pady=10, sticky=tk.E)
@@ -573,7 +580,7 @@ video_button.grid(column=2, row=1, padx=10, pady=5, sticky=tk.E)
 
 #page four for generating analytics
 fr = tk.Frame(page_four)
-graphsDir = os.listdir('./Outputs/')
+
 categories = []
 with open('template.csv') as col:
     lines = csv.reader(col, delimiter = ',')
@@ -585,9 +592,9 @@ date_label.grid(column=1, row=1, padx=20, pady=5, sticky="w")
 category_label = ttk.Label (page_four, text="Select the category")
 category_label.grid(column=2, row=1, padx=10, pady=5, sticky="w")
 
-analytics_date_dropdown = ttk.Combobox(page_four, values= graphsDir, width = 40)
+analytics_date_dropdown = ttk.Combobox(page_four, width = 40)
 analytics_date_dropdown.grid(column=1, row=50, padx= 20, pady=0, sticky=tk.EW)
-analytics_date_dropdown.current(0)
+
 analytics_date_dropdown['state'] = 'readonly'
 
 analytics_category_dropdown = ttk.Combobox(page_four, values= categories[1:], width = 40)

@@ -5,7 +5,7 @@ import csv
 import calendar
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-import pickle
+import os
 from analytix import Client
 
 #Given a list of categories and the month as well as the range, it will generate a random list of dates for that month
@@ -47,12 +47,12 @@ def ytAnalytics():
     report.to_csv("./Outputs/output.csv", overwrite=True)
 
 
-def ytAnalyticsDate (startDate, endDate,categories):
+def ytAnalyticsDate (startDate, endDate):
     name = (str(startDate) +"_" + str(endDate))
     client = Client("secrets.json")
+    
     report = client.fetch_report(
     dimensions=("day",),
-    filters=categories,
     start_date= startDate,
         end_date=endDate,
     )
@@ -61,24 +61,26 @@ def ytAnalyticsDate (startDate, endDate,categories):
 def generateYTAnalytics(startingYear, startingMonth, endingMonth,categories):
     min = 30 #This is to emulate a steady growth in a youtube channel, this will not be used when you pull from your own analytics so it should be removed
     max = 200
-    analytics = [] #Stores the filenames of all the outputs
     currMonth = startingMonth
     currYear = startingYear
-    #year = startingyear
-    #startingdate = datetime.date(startingyear,startingmonth,1)
-    #if (startingmonth > endingmonth):
-    #    year += 1
-    #endingdate = datetime.date(year,endingmonth,31)
-    while (currMonth != endingMonth): #This loop will replaced with ytAnalyticsDate(startingdate,enddate) for a working yt channel
-        if (currMonth > 12):
-            currMonth = 1
-            currYear +=1
-        fileName = str(currYear)+'_'+str(currMonth)
-        createTestAnalyticsM(currYear,currMonth,categories,min,max,fileName)  #Creates a csv file with all the data for each month in the file.
-        analytics.append(fileName)
-        currMonth+=1
+    if (os.path.isfile('secrets.json')):
+        while (currMonth != endingMonth): #This loop will replaced with ytAnalyticsDate(startingdate,enddate) for a working yt channel
+            if (currMonth > 12):
+                currMonth = 1
+                currYear +=1
+            startingdate = datetime.date(currYear,currMonth,1) #beginning of the month
+            numofdays = calendar.monthrange(currYear,currMonth)[1] #number of days in the month
+            endingdate = datetime.date (currYear,currMonth,numofdays) #end of the month
+            ytAnalyticsDate(startingdate,endingdate)
+            currMonth+=1
+    else:
+        while (currMonth != endingMonth): #This loop will replaced with ytAnalyticsDate(startingdate,enddate) for a working yt channel
+            if (currMonth > 12):
+                currMonth = 1
+                currYear +=1
+            createTestAnalyticsM(currYear,currMonth,categories,min,max,fileName)  #Creates a csv file with all the data for each month in the file.
+            currMonth+=1
 
-    return analytics
-
+ 
 
 
