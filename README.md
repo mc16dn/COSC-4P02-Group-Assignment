@@ -45,11 +45,10 @@ The application may be customized to meet the needs of the user and updated to r
 - Ongoing Daily scrums, Weekly Sprint review, Sprint Retrospective.
 - TA Progress meeting Scheduled & Progress report 1 ready & approved.
 - TA Progress meeting 2 Scheduled & Progress report 2 ready & approved. 
-
+- Project Presentation ready & approved.
 
 ## Product Backlog/ Sprint Backlog:
 - Jira: https://brocku-hh18iq.atlassian.net/jira/software/projects/SMPG/boards/1/backlog
 
-
-Resources: 
-Reddit post for banned word list: https://www.reddit.com/r/NewTubers/comments/nm09bz/list_of_500_words_to_put_in_your_banned_words_list/
+## Resources: 
+- Reddit post for banned word list: https://www.reddit.com/r/NewTubers/comments/nm09bz/list_of_500_words_to_put_in_your_banned_words_list/
