@@ -78,6 +78,7 @@ def generateYTAnalytics(startingYear, startingMonth, endingMonth,categories):
             if (currMonth > 12):
                 currMonth = 1
                 currYear +=1
+            fileName = str(currYear) + '_' + str(currMonth)
             createTestAnalyticsM(currYear,currMonth,categories,min,max,fileName)  #Creates a csv file with all the data for each month in the file.
             currMonth+=1
 
