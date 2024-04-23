@@ -55,7 +55,6 @@ def ytAnalyticsDate (startDate, endDate):
         dimensions=("day",),
         start_date= startDate,
         end_date=endDate,
-        sort_options=("-views",)
     )
     report.to_csv('./Outputs/'+name + ".csv", overwrite=True)
 
