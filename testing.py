@@ -4,6 +4,8 @@ from MainApp import *
 
 #TESTS
 
+#This test is no longer working and will switch to manual testing because of the GUI
+
 #Censoring
 
 print( "\n" + "Censored text: " + "\n")
@@ -31,7 +33,10 @@ print(grab_url("AskReddit",-10,"top", "month"))
 #The following tests succeed
 
 print(grab_url("AskReddit",0,"top", "month"))
-print(grab_url("AskReddit",100,"top", "month"))
+
+#This test succeeds but isn't done as it takes too long
+#print(grab_url("AskReddit",100,"top", "month"))
+
 print(grab_url("AskReddit",5,"hot"))
 
 
