@@ -48,14 +48,11 @@ print(grab_url("AskReddit",5,"hot"))
 
 #TextToSpeech
 
-
-title = "test"
-lan = "en"
-accent = 'us'
+lan = 1
 postText = test_post.text
 
 
-createTTS (postText, title, lan,accent)
+textToSpeech (postText, lan)
 
 words_per_minute = 160 #approximately how fast the us accents talks
 maxtime = 60 #max time for youtube shorts is 60seconds
