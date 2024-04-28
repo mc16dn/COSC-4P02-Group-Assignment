@@ -19,6 +19,9 @@ The application may be customized to meet the needs of the user and updated to r
 | Maisam Anjum | Developer 3  | 6804298 | ma19an@brocku.ca | Koorikdat |
 
 
+## Tutorial Programs:
+https://youtu.be/IMxsNklaO-o
+
 ## Required Programs:
 - VLC(64 bit): https://www.videolan.org/
 - API registration: https://docs.google.com/document/d/1H72scctGxD0zaGiVjhwRCJZP5qJYSNIYLv9UBGZe2ms/edit
