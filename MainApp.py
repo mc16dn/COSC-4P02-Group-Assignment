@@ -32,7 +32,7 @@ from VideoPlayer import VideoPlayer
 
 #Checking if ImageMagick has been installed and if Moviepy is correctly pointing to ImageMagick
 if not os.path.exists(os.environ["ProgramFiles"]+"\\ImageMagick-7.1.1-Q16-HDRI"):
-    raise Exception("ImageMagick has not been installed, please use the EXE provided and select Install legacy untilities during Select Additional Tasks.")
+    raise Exception("ImageMagick has not been installed, please use the EXE provided and select Install legacy utilities during Select Additional Tasks.")
 elif not os.path.exists(os.environ["ProgramFiles"]+"\\ImageMagick-7.1.1-Q16-HDRI\\convert.exe"):
     raise Exception("ImageMagick has been installed but the legacy utilities have not been added, please reinstall and select Install legacy utilites during Select Additional Tasks.")
 
