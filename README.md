@@ -20,7 +20,7 @@ The application may be customized to meet the needs of the user and updated to r
 
 
 ## Tutorial Programs:
-https://youtu.be/IMxsNklaO-o
+[![Watch the video](https://i.stack.imgur.com/Vp2cE.png)](https://www.youtube.com/watch?v=IMxsNklaO-o)
 
 ## Required Programs:
 - VLC(64 bit): https://www.videolan.org/
