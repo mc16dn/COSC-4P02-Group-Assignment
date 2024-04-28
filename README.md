@@ -18,21 +18,37 @@ The application may be customized to meet the needs of the user and updated to r
 | Matthew Cam | Developer 2  | 6195556 | mc16dn@brocku.ca | mc16dn |
 | Maisam Anjum | Developer 3  | 6804298 | ma19an@brocku.ca | Koorikdat |
 
+
+## Required Programs:
+- VLC(64 bit): https://www.videolan.org/
+- API registration: https://docs.google.com/document/d/1H72scctGxD0zaGiVjhwRCJZP5qJYSNIYLv9UBGZe2ms/edit
+
 ## Frameworks used:
-- Python 
+- Python
 - Text to Speech
-- TikTok
 - Youtube 
 - Reddit
 - readme.so (Updating text files)
 - Jira (Designing roadmaps, backlogs, sprints)
-- Miro (Organizing product roadmaps, meeting schedule & sprint feedback session )
-
+- Miro (Organizing product roadmaps, meeting schedule & sprint feedback session)
+- VLC
+- ImageMagick
+- moviePy
+- Tkinter
+- playsound
+- GTTS
+- mutagen
 ## Build Status:
 - Regular ongoing meetings occurring to talk about the backbone of the bot and get the team proposal on hand.
 - Proposal ready & waiting for confirmation.
 - Proposal approved & ongoing meetings for Release planning document is set as priority.
-
+- Ongoing Daily scrums, Weekly Sprint review, Sprint Retrospective.
+- TA Progress meeting Scheduled & Progress report 1 ready & approved.
+- TA Progress meeting 2 Scheduled & Progress report 2 ready & approved. 
+- Project Presentation ready & approved.
 
 ## Product Backlog/ Sprint Backlog:
-- Link will be soon generated.
+- Jira: https://brocku-hh18iq.atlassian.net/jira/software/projects/SMPG/boards/1/backlog
+
+## Resources: 
+- Reddit post for banned word list: https://www.reddit.com/r/NewTubers/comments/nm09bz/list_of_500_words_to_put_in_your_banned_words_list/
