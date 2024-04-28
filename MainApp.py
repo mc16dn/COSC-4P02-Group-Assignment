@@ -423,8 +423,7 @@ def change_final(frame):
     text = censorText(sub_list[sub_choice_dropdown.current()])
     textToSpeech(text, audio_dropdown.current() + 1)
     merge(text, audio_dropdown.current() + 1,vid_dropdown.get(), path)
-    vp=VideoPlayer(os.getcwd()+"\\end.mp4")
-    vp.mainloop()
+    final_video(os.getcwd()+"\\end.mp4")
 
 def createGraph(fileName, category):
     x=[]
