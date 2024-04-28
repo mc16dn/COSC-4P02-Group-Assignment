@@ -423,8 +423,8 @@ def change_final(frame):
     text = censorText(sub_list[sub_choice_dropdown.current()])
     textToSpeech(text, audio_dropdown.current() + 1)
     merge(text, audio_dropdown.current() + 1,vid_dropdown.get(), path)
-    video_button =tk.Button(page_three, text="Final Video", command=lambda:final_video("end.mp4"))
-    video_button.grid(column=1, row=7, padx=0, pady=20, sticky=tk.E)
+    v_button =tk.Button(page_three, text="Final Video", command=lambda:final_video("end.mp4"))
+    v_button.grid(column=1, row=7, padx=0, pady=20, sticky=tk.E)
 
 def createGraph(fileName, category):
     x=[]
