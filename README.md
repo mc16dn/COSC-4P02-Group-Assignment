@@ -12,7 +12,7 @@ The application may be customized to meet the needs of the user and updated to r
 | Name  | Role | Id | Brock Email | Github Username |
 | ------------- | ------------- | ------------- |------------- |------------- |
 | Basel Abdel Hafez | Product Owner | 6826853 | ba19tw@brocku.ca | Hafezberg |
-| Hevar Halabjaee | Scrum Master  | 6701248 | hh18iq@brocku.ca | spiralwind |
+| Hevar Halabjaee | Scrum Master  | 6701248 | hh18iq@brocku.ca | Hevarhal |
 | Rifat Chowdhury  | Project Manager  | 6830301 | rc19nv@brocku.ca | Rifat-Chowdhury |
 | Raymond Dong | Developer 1  | 6592539 | rd18sx@brocku.ca | raymonddong2 |
 | Matthew Cam | Developer 2  | 6195556 | mc16dn@brocku.ca | mc16dn |
