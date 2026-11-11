@@ -28,12 +28,13 @@ class Post:
                 # Set the instance attributes based on the data
                 self.upvotes = post_data.get('ups', 0)  # Replace 'ups' with the correct key if different
                 self.subreddit = post_data.get('subreddit', 'Unknown Subreddit')
+                self.title = post_data.get('title', 'No Title')
                 self.text = post_data.get('selftext', 'No Text')
 
 # example of how to run this
-test_post = Post('https://www.reddit.com/r/stories/comments/1ahp9d1/meditation_practise_has_made_taking_shits_1000x/.json')
+#test_post = Post('https://www.reddit.com/r/stories/comments/1ahp9d1/meditation_practise_has_made_taking_shits_1000x/.json')
 
-print("URL:", test_post.url)
-print("Subreddit:", test_post.subreddit)
-print("Text:", test_post.text)
-print("Upvotes:", test_post.upvotes)
+#print("URL:", test_post.url)
+#print("Subreddit:", test_post.subreddit)
+#print("Text:", test_post.text)
+#print("Upvotes:", test_post.upvotes)
